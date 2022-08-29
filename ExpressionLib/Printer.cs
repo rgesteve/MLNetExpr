@@ -313,6 +313,7 @@ namespace ExpressionLib
             _wrt.Write(':');
             _wrt.Write(node.ExprType.ToString());
         }
+#endif
 
         private void ShowType(ParamNode node)
         {
@@ -325,6 +326,7 @@ namespace ExpressionLib
             _wrt.Write(node.ExprType.ToString());
         }
 
+#if false
         public override void Visit(BoolLitNode node)
         {
             Contracts.AssertValue(node);
@@ -365,14 +367,18 @@ namespace ExpressionLib
             _wrt.Write(node.Value);
             ShowType(node);
         }
+#endif
 
         public override void Visit(ParamNode node)
         {
+#if false
             Contracts.AssertValue(node);
+#endif
             _wrt.Write(node.Name);
             ShowType(node);
         }
 
+#if false
         public override void Visit(LambdaNode node)
         {
             Contracts.AssertValue(node);

@@ -5,8 +5,10 @@
 using System;
 using System.IO;
 using System.Reflection;
-#if false
+
+using Microsoft.ML;
 using Microsoft.ML.Data;
+#if false
 using Microsoft.ML.Internal.Utilities;
 using Microsoft.ML.Runtime;
 #endif
@@ -124,8 +126,10 @@ namespace ExpressionLib
         public abstract void Visit(NameNode node);
 	#if false
         public abstract void Visit(IdentNode node);
+	#endif
         public abstract void Visit(ParamNode node);
 
+#if false
         // Visit methods for non-leaf node types.
         // If PreVisit returns true, the children are visited and PostVisit is called.
         public virtual bool PreVisit(LambdaNode node) { return true; }
@@ -225,7 +229,6 @@ namespace ExpressionLib
             return (T)this;
         }
 
-    #if false
         // TestXxx returns null if "this" is not of the correct type.
         // In contrast AsXxx asserts that the default implementation is not being
         // used (the derived type should override). TestXxx is for when you don't know
@@ -234,6 +237,7 @@ namespace ExpressionLib
         public virtual LambdaNode TestPredicate { get { return null; } }
         public virtual ParamNode AsParam { get { return Cast<ParamNode>(); } }
         public virtual ParamNode TestParam { get { return null; } }
+		    #if false
         public virtual ConditionalNode AsConditional { get { return Cast<ConditionalNode>(); } }
         public virtual ConditionalNode TestConditional { get { return null; } }
         public virtual BinaryOpNode AsBinaryOp { get { return Cast<BinaryOpNode>(); } }
@@ -342,24 +346,27 @@ namespace ExpressionLib
             }
         }
 
-#if false
         public void SetType(ExprTypeKind kind)
         {
+	#if false
             Contracts.Assert(kind != 0);
             Contracts.Assert(ExprValue == null);
             Contracts.Assert(ExprType == 0 || ExprType == kind);
             Contracts.Assert(SrcKind == ExprType);
+	    #endif
             ExprType = kind;
             SrcKind = kind;
         }
 
         public void SetType(ExprTypeKind kind, object value)
         {
+	#if false
             Contracts.Assert(kind != 0);
             Contracts.Assert(value == null || value.GetType() == ToSysType(kind));
             Contracts.Assert(ExprValue == null);
             Contracts.Assert(ExprType == 0 || ExprType == kind);
             Contracts.Assert(SrcKind == ExprType);
+	    #endif
             ExprType = kind;
             SrcKind = kind;
             ExprValue = value;
@@ -405,8 +412,10 @@ namespace ExpressionLib
 
         public void SetValue(ExprNode expr)
         {
+	#if false
             Contracts.AssertValue(expr);
             Contracts.Assert(expr.ExprType != 0);
+	    #endif
             SetType(expr.ExprType);
             ExprValue = expr.ExprValue;
         }
@@ -485,48 +494,68 @@ namespace ExpressionLib
 
         public void Convert(ExprTypeKind kind)
         {
+	#if false
             Contracts.Assert(HasType);
+	    #endif
 
             if (kind == ExprType)
                 return;
 
+#if false
             Contracts.Assert(SrcKind == ExprType);
+	    #endif
             switch (kind)
             {
                 case ExprTypeKind.I8:
+		    #if false
                     Contracts.Assert(ExprType == ExprTypeKind.I4);
+		    #endif
                     if (ExprValue != null)
                     {
+    			#if false
                         Contracts.Assert(ExprValue is I4);
+			#endif
                         ExprValue = (I8)(I4)ExprValue;
                     }
                     break;
                 case ExprTypeKind.R4:
+		    #if false
                     Contracts.Assert(ExprType == ExprTypeKind.I4);
+		    #endif
                     if (ExprValue != null)
                     {
+			#if false
                         Contracts.Assert(ExprValue is I4);
+			#endif
                         ExprValue = (R4)(I4)ExprValue;
                     }
                     break;
                 case ExprTypeKind.R8:
+#if false
                     Contracts.Assert(ExprType == ExprTypeKind.I4 || ExprType == ExprTypeKind.I8 ||
                         ExprType == ExprTypeKind.R4);
+#endif
                     if (ExprValue != null)
                     {
                         if (ExprType == ExprTypeKind.I4)
                         {
+			#if false
                             Contracts.Assert(ExprValue is I4);
+			    #endif
                             ExprValue = (R8)(I4)ExprValue;
                         }
                         else if (ExprType == ExprTypeKind.I8)
                         {
+			#if false
                             Contracts.Assert(ExprValue is I8);
+			    #endif
                             ExprValue = (R8)(I8)ExprValue;
                         }
                         else
                         {
+			#if false
                             Contracts.Assert(ExprValue is R4);
+			    #endif
                             ExprValue = (R8)(R4)ExprValue;
                         }
                     }
@@ -619,10 +648,8 @@ namespace ExpressionLib
             value = null;
             return false;
         }
-#endif
     }
 
-#if false
     internal sealed class LambdaNode : Node
     {
         public readonly ParamNode[] Vars;
@@ -633,8 +660,10 @@ namespace ExpressionLib
         public LambdaNode(Token tok, ParamNode[] vars, ExprNode expr)
             : base(tok)
         {
+	#if false
             Contracts.AssertNonEmpty(vars);
             Contracts.AssertValue(expr);
+	    #endif
             Vars = vars;
             Expr = expr;
         }
@@ -645,6 +674,7 @@ namespace ExpressionLib
 
         public override void Accept(NodeVisitor visitor)
         {
+	#if false
             Contracts.AssertValue(visitor);
             if (visitor.PreVisit(this))
             {
@@ -653,8 +683,10 @@ namespace ExpressionLib
                 Expr.Accept(visitor);
                 visitor.PostVisit(this);
             }
+	    #endif
         }
 
+#if false
         public ParamNode FindParam(string name)
         {
             foreach (var v in Vars)
@@ -664,6 +696,7 @@ namespace ExpressionLib
             }
             return null;
         }
+	#endif
     }
 
     internal sealed class ParamNode : Node
@@ -676,9 +709,11 @@ namespace ExpressionLib
         public ParamNode(Token tok, string name, int index, DataViewType type)
             : base(tok)
         {
+		#if false
             Contracts.AssertNonEmpty(name);
             Contracts.Assert(index >= 0);
             Contracts.AssertValueOrNull(type);
+	    #endif
             Name = name;
             Index = index;
             Type = type;
@@ -705,11 +740,12 @@ namespace ExpressionLib
 
         public override void Accept(NodeVisitor visitor)
         {
+	#if false
             Contracts.AssertValue(visitor);
+	    #endif
             visitor.Visit(this);
         }
     }
-    #endif
 
     // A NameNode identifies the name of something. An IdentNode is an expression node
     // consisting of an identifier.

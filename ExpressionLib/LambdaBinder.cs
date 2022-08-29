@@ -178,13 +178,17 @@ namespace ExpressionLib
             PostError(node, "Unresolved identifier '{0}'", node.Value);
             node.SetType(ExprTypeKind.Error);
         }
+	#endif
 
         public override void Visit(ParamNode node)
         {
+	#if false
             _host.AssertValue(node);
             _host.Assert(node.ExprType != 0);
+	    #endif
         }
 
+#if false
         public override bool PreVisit(LambdaNode node)
         {
             _host.AssertValue(node);
