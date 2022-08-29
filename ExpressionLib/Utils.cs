@@ -28,9 +28,9 @@ namespace ExpressionLib
 #endif
     internal static partial class Utils
     {
-#if false
         public const int ArrayMaxSize = ArrayUtils.ArrayMaxSize;
 
+#if false
         public static bool StartsWithInvariantCultureIgnoreCase(this string str, string startsWith)
         {
             return str.StartsWith(startsWith, StringComparison.InvariantCultureIgnoreCase);
@@ -65,25 +65,29 @@ namespace ExpressionLib
             return x == null ? 0 : x.Length;
         }
 
-#if false
         public static int Size(StringBuilder x)
         {
+	#if false
             Contracts.AssertValueOrNull(x);
+	    #endif
             return x == null ? 0 : x.Length;
         }
 
         public static int Size(Array x)
         {
+	#if false
             Contracts.AssertValueOrNull(x);
+	    #endif
             return x == null ? 0 : x.Length;
         }
 
         public static int Size<T>(T[] x)
         {
+	#if false
             Contracts.AssertValueOrNull(x);
+	    #endif
             return x == null ? 0 : x.Length;
         }
-#endif
 
         public static int Size<T>(List<T> x)
         {
@@ -93,46 +97,59 @@ namespace ExpressionLib
             return x == null ? 0 : x.Count;
         }
 
-#if false
         public static int Size<T>(IList<T> x)
         {
+	#if false
             Contracts.AssertValueOrNull(x);
+	    #endif
             return x == null ? 0 : x.Count;
         }
 
         public static int Size<T>(IReadOnlyList<T> x)
         {
+	#if false
             Contracts.AssertValueOrNull(x);
+	    #endif
             return x == null ? 0 : x.Count;
         }
 
         public static int Size<T>(Stack<T> x)
         {
+	#if false
             Contracts.AssertValueOrNull(x);
+	    #endif
             return x == null ? 0 : x.Count;
         }
 
         public static int Size<T>(HashSet<T> x)
         {
+	#if false
             Contracts.AssertValueOrNull(x);
+	    #endif
             return x == null ? 0 : x.Count;
         }
 
         public static int Size<T>(SortedSet<T> x)
         {
+	#if false
             Contracts.AssertValueOrNull(x);
+	    #endif
             return x == null ? 0 : x.Count;
         }
 
         public static int Size<TKey, TValue>(Dictionary<TKey, TValue> x)
         {
+	#if false
             Contracts.AssertValueOrNull(x);
+	    #endif
             return x == null ? 0 : x.Count;
         }
 
         public static int Size(BitArray x)
         {
+	#if false
             Contracts.AssertValueOrNull(x);
+	    #endif
             return x == null ? 0 : x.Length;
         }
 
@@ -140,7 +157,9 @@ namespace ExpressionLib
 
         public static bool TryGetValue<TKey, TValue>(Dictionary<TKey, TValue> map, TKey key, out TValue value)
         {
+	#if false
             Contracts.AssertValueOrNull(map);
+	    #endif
             if (map == null)
             {
                 value = default(TValue);
@@ -151,7 +170,9 @@ namespace ExpressionLib
 
         public static T[] ToArray<T>(List<T> list)
         {
+	#if false
             Contracts.AssertValueOrNull(list);
+	    #endif
             return list == null ? null : list.ToArray();
         }
 
@@ -159,7 +180,9 @@ namespace ExpressionLib
 
         public static void Add<T>(ref List<T> list, T item)
         {
+	#if false
             Contracts.AssertValueOrNull(list);
+	    #endif
             if (list == null)
                 list = new List<T>();
             list.Add(item);
@@ -167,7 +190,9 @@ namespace ExpressionLib
 
         public static bool Add<T>(ref HashSet<T> set, T item)
         {
+	#if false
             Contracts.AssertValueOrNull(set);
+	    #endif
             if (set == null)
                 set = new HashSet<T>();
             return set.Add(item);
@@ -175,7 +200,9 @@ namespace ExpressionLib
 
         public static void Add<TKey, TValue>(ref Dictionary<TKey, TValue> map, TKey key, TValue value)
         {
+	#if false
             Contracts.AssertValueOrNull(map);
+	    #endif
             if (map == null)
                 map = new Dictionary<TKey, TValue>();
             map.Add(key, value);
@@ -183,7 +210,9 @@ namespace ExpressionLib
 
         public static void Set<TKey, TValue>(ref Dictionary<TKey, TValue> map, TKey key, TValue value)
         {
+	#if false
             Contracts.AssertValueOrNull(map);
+	    #endif
             if (map == null)
                 map = new Dictionary<TKey, TValue>();
             map[key] = value;
@@ -191,7 +220,9 @@ namespace ExpressionLib
 
         public static void Push<T>(ref Stack<T> stack, T item)
         {
+	#if false
             Contracts.AssertValueOrNull(stack);
+	    #endif
             if (stack == null)
                 stack = new Stack<T>();
             stack.Push(item);
@@ -205,9 +236,11 @@ namespace ExpressionLib
         /// </remarks>
         public static void CopyTo<T>(this List<T> src, Span<T> dst, int? count = null)
         {
+	#if false
             Contracts.Assert(src != null);
             Contracts.Assert(!count.HasValue || (0 <= count && count <= src.Count));
             Contracts.Assert(src.Count <= dst.Length);
+	    #endif
 
             count = count ?? src.Count;
             for (int i = 0; i < count; i++)
@@ -224,7 +257,9 @@ namespace ExpressionLib
         /// </summary>
         public static int FindIndexSorted(this IList<int> input, int value)
         {
+	#if false
             Contracts.AssertValue(input);
+	    #endif
             return FindIndexSorted(input, 0, input.Count, value);
         }
 
@@ -236,7 +271,9 @@ namespace ExpressionLib
         /// </summary>
         public static int FindIndexSorted(this IList<float> input, float value)
         {
+	#if false
             Contracts.AssertValue(input);
+	    #endif
             return FindIndexSorted(input, 0, input.Count, value);
         }
 
@@ -248,7 +285,9 @@ namespace ExpressionLib
         /// </summary>
         public static int FindIndexSorted(this Double[] input, Double value)
         {
+	#if false
             Contracts.AssertValue(input);
+	    #endif
             return FindIndexSorted(input, 0, input.Length, value);
         }
 
@@ -303,28 +342,36 @@ namespace ExpressionLib
         /// </summary>
         public static int FindIndexSorted(this IList<int> input, int min, int lim, int value)
         {
+	#if false
             Contracts.AssertValue(input);
             Contracts.Assert(0 <= min && min <= lim && lim <= input.Count);
+	    #endif
 
             int minCur = min;
             int limCur = lim;
             while (minCur < limCur)
             {
                 int mid = (int)(((uint)minCur + (uint)limCur) / 2);
+		#if false
                 Contracts.Assert(minCur <= mid && mid < limCur);
+		#endif
 
                 if (input[mid] >= value)
                     limCur = mid;
                 else
                     minCur = mid + 1;
 
+#if false
                 Contracts.Assert(min <= minCur && minCur <= limCur && limCur <= lim);
                 Contracts.Assert(minCur == min || input[minCur - 1] < value);
                 Contracts.Assert(limCur == lim || input[limCur] >= value);
+		#endif
             }
+	    #if false
             Contracts.Assert(min <= minCur && minCur == limCur && limCur <= lim);
             Contracts.Assert(minCur == min || input[minCur - 1] < value);
             Contracts.Assert(limCur == lim || input[limCur] >= value);
+	    #endif
 
             return minCur;
         }
@@ -337,30 +384,38 @@ namespace ExpressionLib
         /// </summary>
         public static int FindIndexSorted(this IList<float> input, int min, int lim, float value)
         {
+	#if false
             Contracts.AssertValue(input);
             Contracts.Assert(0 <= min && min <= lim && lim <= input.Count);
             Contracts.Assert(!float.IsNaN(value));
+	    #endif
 
             int minCur = min;
             int limCur = lim;
             while (minCur < limCur)
             {
                 int mid = (int)(((uint)minCur + (uint)limCur) / 2);
+		#if false
                 Contracts.Assert(minCur <= mid && mid < limCur);
                 Contracts.Assert(!float.IsNaN(input[mid]));
+		#endif
 
                 if (input[mid] >= value)
                     limCur = mid;
                 else
                     minCur = mid + 1;
 
+#if false
                 Contracts.Assert(min <= minCur && minCur <= limCur && limCur <= lim);
                 Contracts.Assert(minCur == min || input[minCur - 1] < value);
                 Contracts.Assert(limCur == lim || input[limCur] >= value);
+		#endif
             }
+	    #if false
             Contracts.Assert(min <= minCur && minCur == limCur && limCur <= lim);
             Contracts.Assert(minCur == min || input[minCur - 1] < value);
             Contracts.Assert(limCur == lim || input[limCur] >= value);
+	    #endif
 
             return minCur;
         }
@@ -373,30 +428,38 @@ namespace ExpressionLib
         /// </summary>
         public static int FindIndexSorted(this Double[] input, int min, int lim, Double value)
         {
+	#if false
             Contracts.AssertValue(input);
             Contracts.Assert(0 <= min && min <= lim && lim <= input.Length);
             Contracts.Assert(!Double.IsNaN(value));
+	    #endif
 
             int minCur = min;
             int limCur = lim;
             while (minCur < limCur)
             {
                 int mid = (int)(((uint)minCur + (uint)limCur) / 2);
+		#if false
                 Contracts.Assert(minCur <= mid && mid < limCur);
                 Contracts.Assert(!Double.IsNaN(input[mid]));
+		#endif
 
                 if (input[mid] >= value)
                     limCur = mid;
                 else
                     minCur = mid + 1;
 
+#if false
                 Contracts.Assert(min <= minCur && minCur <= limCur && limCur <= lim);
                 Contracts.Assert(minCur == min || input[minCur - 1] < value);
                 Contracts.Assert(limCur == lim || input[limCur] >= value);
+		#endif
             }
+	    #if false
             Contracts.Assert(min <= minCur && minCur == limCur && limCur <= lim);
             Contracts.Assert(minCur == min || input[minCur - 1] < value);
             Contracts.Assert(limCur == lim || input[limCur] >= value);
+	    #endif
 
             return minCur;
         }
@@ -408,28 +471,36 @@ namespace ExpressionLib
         /// </summary>
         public static int FindIndexSorted<T>(this T[] input, int min, int lim, Func<T, bool> func)
         {
+	#if false
             Contracts.AssertValue(input);
             Contracts.Assert(0 <= min && min <= lim && lim <= input.Length);
+	    #endif
 
             int minCur = min;
             int limCur = lim;
             while (minCur < limCur)
             {
                 int mid = (int)(((uint)minCur + (uint)limCur) / 2);
+		#if false
                 Contracts.Assert(minCur <= mid && mid < limCur);
+		#endif
 
                 if (func(input[mid]))
                     limCur = mid;
                 else
                     minCur = mid + 1;
 
+#if false
                 Contracts.Assert(min <= minCur && minCur <= limCur && limCur <= lim);
                 Contracts.Assert(minCur == min || !func(input[minCur - 1]));
                 Contracts.Assert(limCur == lim || func(input[limCur]));
+		#endif
             }
+	    #if false
             Contracts.Assert(min <= minCur && minCur == limCur && limCur <= lim);
             Contracts.Assert(minCur == min || !func(input[minCur - 1]));
             Contracts.Assert(limCur == lim || func(input[limCur]));
+	    #endif
 
             return minCur;
         }
@@ -441,32 +512,41 @@ namespace ExpressionLib
         /// </summary>
         public static int FindIndexSorted<T, TValue>(this T[] input, int min, int lim, Func<T, TValue, bool> func, TValue value)
         {
+	#if false
             Contracts.AssertValue(input);
             Contracts.Assert(0 <= min && min <= lim && lim <= input.Length);
+	    #endif
 
             int minCur = min;
             int limCur = lim;
             while (minCur < limCur)
             {
                 int mid = (int)(((uint)minCur + (uint)limCur) / 2);
+		#if false
                 Contracts.Assert(minCur <= mid && mid < limCur);
+		#endif
 
                 if (func(input[mid], value))
                     limCur = mid;
                 else
                     minCur = mid + 1;
 
+#if false
                 Contracts.Assert(min <= minCur && minCur <= limCur && limCur <= lim);
                 Contracts.Assert(minCur == min || !func(input[minCur - 1], value));
                 Contracts.Assert(limCur == lim || func(input[limCur], value));
+		#endif
             }
+	    #if false
             Contracts.Assert(min <= minCur && minCur == limCur && limCur <= lim);
             Contracts.Assert(minCur == min || !func(input[minCur - 1], value));
             Contracts.Assert(limCur == lim || func(input[limCur], value));
+	    #endif
 
             return minCur;
         }
 
+#if false
         public static int[] GetIdentityPermutation(int size)
         {
             Contracts.Assert(size >= 0);

@@ -9,7 +9,6 @@ using Microsoft.ML.Runtime;
 
 namespace ExpressionLib
 {
-#if false
     internal sealed class Error
     {
         public readonly Token Token;
@@ -19,8 +18,10 @@ namespace ExpressionLib
 
         public Error(Token tok, string msg)
         {
+	#if false
             Contracts.AssertValue(tok);
             Contracts.AssertNonEmpty(msg);
+	    #endif
             Token = tok;
             Message = msg;
             Args = null;
@@ -28,9 +29,11 @@ namespace ExpressionLib
 
         public Error(Token tok, string msg, params object[] args)
         {
+	#if false
             Contracts.AssertValue(tok);
             Contracts.AssertNonEmpty(msg);
             Contracts.AssertValue(args);
+	    #endif
             Token = tok;
             Message = msg;
             Args = args;
@@ -46,5 +49,5 @@ namespace ExpressionLib
             return msg;
         }
     }
-#endif
+
 }
