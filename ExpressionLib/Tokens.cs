@@ -52,11 +52,12 @@ namespace ExpressionLib
             KindContext = tid;
         }
 
-#if false
         protected Token(TextSpan span, TokKind tid, TokKind tidContext)
         {
             // Currently the only contextual variability is that an identifier might double as a keyword.
+	    #if false
             Contracts.Assert(tidContext == tid || tid == TokKind.Ident);
+	    #endif
             Span = span;
             Kind = tid;
             KindContext = tidContext;
@@ -64,7 +65,9 @@ namespace ExpressionLib
 
         public T As<T>() where T : Token
         {
+	#if false
             Contracts.Assert(this is T);
+	    #endif
             return (T)this;
         }
 
@@ -72,7 +75,6 @@ namespace ExpressionLib
         {
             return Kind.ToString();
         }
-	#endif
     }
     
     // Keyword/punctuation token
