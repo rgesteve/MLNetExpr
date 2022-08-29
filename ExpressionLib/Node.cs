@@ -117,41 +117,41 @@ namespace ExpressionLib
 
     internal abstract class NodeVisitor
     {
-    #if false
         // Visit methods for leaf node types.
         public abstract void Visit(BoolLitNode node);
         public abstract void Visit(StrLitNode node);
         public abstract void Visit(NumLitNode node);
-	#endif
         public abstract void Visit(NameNode node);
-	#if false
         public abstract void Visit(IdentNode node);
-	#endif
         public abstract void Visit(ParamNode node);
 
 #if false
         // Visit methods for non-leaf node types.
         // If PreVisit returns true, the children are visited and PostVisit is called.
         public virtual bool PreVisit(LambdaNode node) { return true; }
+	#endif
         public virtual bool PreVisit(UnaryOpNode node) { return true; }
         public virtual bool PreVisit(BinaryOpNode node) { return true; }
+		#if false
         public virtual bool PreVisit(ConditionalNode node) { return true; }
         public virtual bool PreVisit(CompareNode node) { return true; }
         public virtual bool PreVisit(CallNode node) { return true; }
         public virtual bool PreVisit(ListNode node) { return true; }
+	#endif
         public virtual bool PreVisit(WithNode node) { return true; }
         public virtual bool PreVisit(WithLocalNode node) { return true; }
 
         public abstract void PostVisit(LambdaNode node);
         public abstract void PostVisit(UnaryOpNode node);
         public abstract void PostVisit(BinaryOpNode node);
+			#if false
         public abstract void PostVisit(ConditionalNode node);
         public abstract void PostVisit(CompareNode node);
         public abstract void PostVisit(CallNode node);
         public abstract void PostVisit(ListNode node);
+		#endif
         public abstract void PostVisit(WithNode node);
         public abstract void PostVisit(WithLocalNode node);
-	#endif
     }
 
     internal abstract class PreVisitor : NodeVisitor
@@ -159,48 +159,66 @@ namespace ExpressionLib
     #if false
         // Visit methods for non-leaf node types.
         public abstract void Visit(LambdaNode node);
+	#endif
         public abstract void Visit(UnaryOpNode node);
         public abstract void Visit(BinaryOpNode node);
+		#if false
         public abstract void Visit(ConditionalNode node);
         public abstract void Visit(CompareNode node);
         public abstract void Visit(CallNode node);
         public abstract void Visit(ListNode node);
+	#endif
         public abstract void Visit(WithNode node);
         public abstract void Visit(WithLocalNode node);
 
+#if false
         // PreVisit and PostVisit methods for non-leaf node types.
         public override bool PreVisit(LambdaNode node) { Visit(node); return false; }
+	#endif
         public override bool PreVisit(UnaryOpNode node) { Visit(node); return false; }
+	#if false
         public override bool PreVisit(BinaryOpNode node) { Visit(node); return false; }
         public override bool PreVisit(ConditionalNode node) { Visit(node); return false; }
         public override bool PreVisit(CompareNode node) { Visit(node); return false; }
         public override bool PreVisit(CallNode node) { Visit(node); return false; }
         public override bool PreVisit(ListNode node) { Visit(node); return false; }
+	#endif
         public override bool PreVisit(WithNode node) { Visit(node); return false; }
         public override bool PreVisit(WithLocalNode node) { Visit(node); return false; }
 
         public override void PostVisit(LambdaNode node) { Contracts.Assert(false); }
         public override void PostVisit(UnaryOpNode node) { Contracts.Assert(false); }
         public override void PostVisit(BinaryOpNode node) { Contracts.Assert(false); }
+			#if false
         public override void PostVisit(ConditionalNode node) { Contracts.Assert(false); }
         public override void PostVisit(CompareNode node) { Contracts.Assert(false); }
         public override void PostVisit(CallNode node) { Contracts.Assert(false); }
         public override void PostVisit(ListNode node) { Contracts.Assert(false); }
+		#endif
         public override void PostVisit(WithNode node) { Contracts.Assert(false); }
         public override void PostVisit(WithLocalNode node) { Contracts.Assert(false); }
-	#endif
     }
 
-#if false
     internal abstract class ExprVisitor : NodeVisitor
     {
         // This just provides default implementations for non-expr related node types.
-        public override void Visit(NameNode node) { Contracts.Assert(false); }
-        public override void Visit(ParamNode node) { Contracts.Assert(false); }
+        public override void Visit(NameNode node) {
+	#if false
+	Contracts.Assert(false);
+	    #endif
+	}
+        public override void Visit(ParamNode node) {
+	#if false
+	Contracts.Assert(false);
+	    #endif
+	}
 
-        public override void PostVisit(LambdaNode node) { Contracts.Assert(false); }
+        public override void PostVisit(LambdaNode node) {
+	#if false
+	Contracts.Assert(false);
+	    #endif
+	}
     }
-    #endif
 
     // Base class for all parse nodes.
     internal abstract class Node
@@ -240,33 +258,33 @@ namespace ExpressionLib
 		    #if false
         public virtual ConditionalNode AsConditional { get { return Cast<ConditionalNode>(); } }
         public virtual ConditionalNode TestConditional { get { return null; } }
+		#endif
         public virtual BinaryOpNode AsBinaryOp { get { return Cast<BinaryOpNode>(); } }
         public virtual BinaryOpNode TestBinaryOp { get { return null; } }
         public virtual UnaryOpNode AsUnaryOp { get { return Cast<UnaryOpNode>(); } }
         public virtual UnaryOpNode TestUnaryOp { get { return null; } }
+	#if false
         public virtual CompareNode AsCompare { get { return Cast<CompareNode>(); } }
         public virtual CompareNode TestCompare { get { return null; } }
         public virtual CallNode AsCall { get { return Cast<CallNode>(); } }
         public virtual CallNode TestCall { get { return null; } }
         public virtual ListNode AsList { get { return Cast<ListNode>(); } }
         public virtual ListNode TestList { get { return null; } }
+	#endif
         public virtual WithNode AsWith { get { return Cast<WithNode>(); } }
         public virtual WithNode TestWith { get { return null; } }
         public virtual WithLocalNode AsWithLocal { get { return Cast<WithLocalNode>(); } }
         public virtual WithLocalNode TestWithLocal { get { return null; } }
-	#endif
         public virtual NameNode AsName { get { return Cast<NameNode>(); } }
         public virtual NameNode TestName { get { return null; } }
-	#if false
         public virtual IdentNode AsIdent { get { return Cast<IdentNode>(); } }
         public virtual IdentNode TestIdent { get { return null; } }
-        public virtual BoolLitNode AsBoolLit { get { return Cast<BoolLitNode>(); } }
+	public virtual BoolLitNode AsBoolLit { get { return Cast<BoolLitNode>(); } }
         public virtual BoolLitNode TestBoolLit { get { return null; } }
         public virtual NumLitNode AsNumLit { get { return Cast<NumLitNode>(); } }
         public virtual NumLitNode TestNumLit { get { return null; } }
         public virtual StrLitNode AsStrLit { get { return Cast<StrLitNode>(); } }
         public virtual StrLitNode TestStrLit { get { return null; } }
-		#endif
 
         // Non-leaf types.
         public virtual ExprNode AsExpr { get { return Cast<ExprNode>(); } }
@@ -686,7 +704,6 @@ namespace ExpressionLib
 	    #endif
         }
 
-#if false
         public ParamNode FindParam(string name)
         {
             foreach (var v in Vars)
@@ -696,7 +713,6 @@ namespace ExpressionLib
             }
             return null;
         }
-	#endif
     }
 
     internal sealed class ParamNode : Node
@@ -775,7 +791,6 @@ namespace ExpressionLib
         }
     }
 
-#if false
     internal sealed class IdentNode : ExprNode
     {
         public readonly string Value;
@@ -788,14 +803,18 @@ namespace ExpressionLib
         public IdentNode(IdentToken tok)
             : base(tok)
         {
+	#if false
             Contracts.AssertNonEmpty(tok.Value);
+	    #endif
             Value = tok.Value;
         }
 
         public IdentNode(Token tok, string value, bool missing = false)
             : base(tok)
         {
+	#if false
             Contracts.AssertNonEmpty(value);
+	    		#endif
             Value = value;
             IsMissing = missing;
         }
@@ -806,7 +825,9 @@ namespace ExpressionLib
 
         public override void Accept(NodeVisitor visitor)
         {
+	#if false
             Contracts.AssertValue(visitor);
+	    	#endif
             visitor.Visit(this);
         }
     }
@@ -983,6 +1004,7 @@ namespace ExpressionLib
         }
     }
 
+#if false
     /// <summary>
     /// Node for the ternary conditional operator.
     /// </summary>
@@ -1189,6 +1211,7 @@ namespace ExpressionLib
             }
         }
     }
+    #endif
 
     /// <summary>
     /// The parse node for a "with" expression. The grammar is:
@@ -1208,8 +1231,10 @@ namespace ExpressionLib
         public WithNode(Token tok, WithLocalNode local, ExprNode body)
             : base(tok)
         {
+	#if false
             Contracts.AssertValue(local);
             Contracts.AssertValue(body);
+	    #endif
             Local = local;
             Body = body;
         }
@@ -1251,8 +1276,10 @@ namespace ExpressionLib
         public WithLocalNode(Token tok, string name, ExprNode value)
             : base(tok)
         {
+	#if false
             Contracts.AssertValue(name);
             Contracts.AssertValue(value);
+	    #endif
             Name = name;
             Value = value;
             Index = -1;
@@ -1271,5 +1298,4 @@ namespace ExpressionLib
             }
         }
     }
-#endif
 }

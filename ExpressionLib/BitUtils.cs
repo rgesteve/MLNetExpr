@@ -33,7 +33,6 @@ namespace ExpressionLib
             return (uint)(uu >> CbitUint);
         }
 
-#if false
         public static uint Abs(int a)
         {
             uint mask = (uint)(a >> 31);
@@ -216,6 +215,5 @@ namespace ExpressionLib
         {
             return (x & (x - 1)) == 0;
         }
-#endif
     }
 }

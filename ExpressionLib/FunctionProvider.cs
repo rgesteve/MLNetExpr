@@ -6,7 +6,6 @@ using System.Reflection;
 
 namespace ExpressionLib
 {
-#if false
     public delegate void SignatureFunctionProvider();
 
     /// <summary>
@@ -42,5 +41,4 @@ namespace ExpressionLib
         /// <returns>The constant value, when it can be determined; null otherwise.</returns>
         object ResolveToConstant(string name, MethodInfo meth, object[] values);
     }
-#endif
 }

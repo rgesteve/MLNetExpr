@@ -48,7 +48,6 @@ namespace ExpressionLib
 	    #endif
         }
 
-#if false
         private bool NeedParensLeft(Precedence precLeft, Precedence precOp)
         {
             if (precLeft < precOp)
@@ -176,6 +175,7 @@ namespace ExpressionLib
             }
         }
 
+#if false
         private string GetString(TokKind tidCompare)
         {
             switch (tidCompare)
@@ -202,6 +202,7 @@ namespace ExpressionLib
                     return " <bad> ";
             }
         }
+	#endif
 
         private bool TryShowValue(ExprNode node)
         {
@@ -243,7 +244,9 @@ namespace ExpressionLib
                     Show((TX)value);
                     break;
                 default:
+		#if false
                     Contracts.Assert(false, "Unknown type");
+		    #endif
                     break;
             }
         }
@@ -313,7 +316,6 @@ namespace ExpressionLib
             _wrt.Write(':');
             _wrt.Write(node.ExprType.ToString());
         }
-#endif
 
         private void ShowType(ParamNode node)
         {
@@ -326,7 +328,6 @@ namespace ExpressionLib
             _wrt.Write(node.ExprType.ToString());
         }
 
-#if false
         public override void Visit(BoolLitNode node)
         {
             Contracts.AssertValue(node);
@@ -347,17 +348,13 @@ namespace ExpressionLib
             _wrt.Write(node.Value.ToString());
             ShowType(node);
         }
-#endif
 
         public override void Visit(NameNode node)
         {
-#if false
             Contracts.AssertValue(node);
-#endif
             _wrt.Write(node.Value);
         }
 
-#if false
         public override void Visit(IdentNode node)
         {
             Contracts.AssertValue(node);
@@ -367,7 +364,6 @@ namespace ExpressionLib
             _wrt.Write(node.Value);
             ShowType(node);
         }
-#endif
 
         public override void Visit(ParamNode node)
         {
@@ -399,6 +395,7 @@ namespace ExpressionLib
             _wrt.Write(" => ");
             node.Expr.Accept(this);
         }
+#endif
 
         public override void Visit(UnaryOpNode node)
         {
@@ -447,6 +444,7 @@ namespace ExpressionLib
             ShowType(node);
         }
 
+#if false
         public override void Visit(ConditionalNode node)
         {
             Contracts.AssertValue(node);
@@ -559,10 +557,13 @@ namespace ExpressionLib
                 node.Items[count - 1].Accept(this);
             }
         }
+#endif
 
         public override void Visit(WithNode node)
         {
+#if false
             Contracts.AssertValue(node);
+#endif
 
             if (TryShowValue(node))
                 return;
@@ -578,12 +579,13 @@ namespace ExpressionLib
 
         public override void Visit(WithLocalNode node)
         {
+#if false
             Contracts.AssertValue(node);
+#endif
 
             _wrt.Write(node.Name);
             _wrt.Write(" = ");
             node.Value.Accept(this);
         }
-#endif
     }
 }

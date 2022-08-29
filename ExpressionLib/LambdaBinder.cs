@@ -25,12 +25,13 @@ namespace ExpressionLib
     {
     #if false
         private readonly IHost _host;
+	#endif
         // The stack of active with nodes.
         private readonly List<WithNode> _rgwith;
-
         private List<Error> _errors;
         private LambdaNode _lambda;
 
+#if false
         private readonly IFunctionProvider[] _providers;
         private readonly Action<string> _printError;
 
@@ -97,6 +98,7 @@ namespace ExpressionLib
         {
             get { return Utils.Size(_errors) > 0; }
         }
+	#endif
 
         private void PostError(Node node, string msg)
         {
@@ -110,42 +112,50 @@ namespace ExpressionLib
 
         public override void Visit(BoolLitNode node)
         {
+	#if false
             _host.AssertValue(node);
             _host.Assert(node.IsBool);
             _host.AssertValue(node.ExprValue);
+	    #endif
         }
 
         public override void Visit(StrLitNode node)
         {
+	#if false
             _host.AssertValue(node);
             _host.Assert(node.IsTX);
             _host.AssertValue(node.ExprValue);
+	    #endif
         }
 
         public override void Visit(NumLitNode node)
         {
+	#if false
             _host.AssertValue(node);
             _host.Assert(node.IsNumber || node.IsError);
             _host.Assert((node.ExprValue == null) == node.IsError);
+	    #endif
 
             if (node.IsError)
                 PostError(node, "Overflow");
         }
-	#endif
 
         public override void Visit(NameNode node)
         {
         }
 
-#if false
         public override void Visit(IdentNode node)
         {
+	#if false
             _host.AssertValue(node);
+	    #endif
 
             // If the IdentNode didn't actually have an IdentToken, just bag out.
             if (node.IsMissing)
             {
+	    #if false
                 _host.Assert(HasErrors);
+		#endif
                 node.SetType(ExprTypeKind.Error);
                 return;
             }
@@ -178,7 +188,6 @@ namespace ExpressionLib
             PostError(node, "Unresolved identifier '{0}'", node.Value);
             node.SetType(ExprTypeKind.Error);
         }
-	#endif
 
         public override void Visit(ParamNode node)
         {
@@ -203,10 +212,13 @@ namespace ExpressionLib
 
             return false;
         }
+	#endif
 
         public override void PostVisit(LambdaNode node)
         {
+	#if false
             _host.Assert(false);
+	    #endif
         }
 
         private string GetStr(ExprTypeKind kind)
@@ -232,22 +244,28 @@ namespace ExpressionLib
         {
             if (!arg.IsError)
                 PostError(arg, "Invalid numeric operand");
+		#if false
             _host.Assert(HasErrors);
+	    #endif
         }
 
         private void BadNum(ExprNode node, ExprNode arg)
         {
             BadNum(arg);
+	    #if false
             _host.Assert(HasErrors);
+	    #endif
             node.SetType(ExprTypeKind.Error);
         }
 
+#if false
         private void BadText(ExprNode arg)
         {
             if (!arg.IsError)
                 PostError(arg, "Invalid text operand");
             _host.Assert(HasErrors);
         }
+	#endif
 
         private void BadArg(ExprNode arg, ExprTypeKind kind)
         {
@@ -259,12 +277,16 @@ namespace ExpressionLib
                 else
                     PostError(arg, "Invalid operand");
             }
+	    #if false
             _host.Assert(HasErrors);
+	    #endif
         }
 
         public override void PostVisit(UnaryOpNode node)
         {
+	#if false
             _host.AssertValue(node);
+	    #endif
             var arg = node.Arg;
             switch (node.Op)
             {
@@ -298,7 +320,9 @@ namespace ExpressionLib
                     break;
 
                 default:
+		#if false
                     _host.Assert(false);
+		    #endif
                     PostError(node, "Unknown unary operator");
                     node.SetType(ExprTypeKind.Error);
                     break;
@@ -307,7 +331,9 @@ namespace ExpressionLib
 
         private BL? GetBoolOp(ExprNode arg)
         {
+	#if false
             _host.AssertValue(arg);
+	    #endif
             if (arg.IsBool)
                 return (BL?)arg.ExprValue;
             BadArg(arg, ExprTypeKind.BL);
@@ -316,7 +342,9 @@ namespace ExpressionLib
 
         public override void PostVisit(BinaryOpNode node)
         {
+	#if false
             _host.AssertValue(node);
+	    #endif
 
             // REVIEW: We should really use the standard function overload resolution
             // mechanism that CallNode binding uses. That would ensure that our type promotion
@@ -348,12 +376,16 @@ namespace ExpressionLib
                     break;
 
                 case BinaryOp.Error:
+		#if false
                     _host.Assert(HasErrors);
+		    #endif
                     node.SetType(ExprTypeKind.Error);
                     break;
 
                 default:
+		#if false
                     _host.Assert(false);
+		    #endif
                     PostError(node, "Unknown binary operator");
                     node.SetType(ExprTypeKind.Error);
                     break;
@@ -362,8 +394,10 @@ namespace ExpressionLib
 
         private void ApplyBoolBinOp(BinaryOpNode node)
         {
+	#if false
             _host.AssertValue(node);
             _host.Assert(node.Op == BinaryOp.And || node.Op == BinaryOp.Or || node.Op == BinaryOp.Coalesce);
+	    #endif
 
             node.SetType(ExprTypeKind.BL);
 
@@ -399,7 +433,9 @@ namespace ExpressionLib
                     break;
             }
 
+#if false
             _host.Assert(node.IsBool);
+	    #endif
         }
 
         /// <summary>
@@ -410,8 +446,10 @@ namespace ExpressionLib
         /// </summary>
         private void ReconcileNumericTypes(ExprNode a, ExprNode b, out ExprTypeKind kind)
         {
+	#if false
             _host.AssertValue(a);
             _host.AssertValue(b);
+	    #endif
 
             // REVIEW: Consider converting I4 + R4 to R8, unless the I4
             // is a constant known to not lose precision when converted to R4.
@@ -424,13 +462,17 @@ namespace ExpressionLib
                     kind = b.ExprType;
                 else // Default to Float (for error reporting).
                     kind = ExprTypeKind.Float;
+		    #if false
                 _host.Assert(MapKindToIndex(kind) >= 0);
+		#endif
             }
         }
 
         private void ApplyNumericBinOp(BinaryOpNode node)
         {
+	#if false
             _host.AssertValue(node);
+	    #endif
 
             var left = node.Left;
             var right = node.Right;
@@ -747,7 +789,9 @@ namespace ExpressionLib
                 case BinaryOp.Power:
                     return BuiltinFunctions.Pow(v1, v2);
                 default:
+		#if false
                     _host.Assert(false);
+		    #endif
                     throw Contracts.Except();
             }
         }
@@ -769,7 +813,9 @@ namespace ExpressionLib
                 case BinaryOp.Power:
                     return BuiltinFunctions.Pow(v1, v2);
                 default:
+		#if false
                     _host.Assert(false);
+		    #endif
                     throw Contracts.Except();
             }
         }
@@ -793,7 +839,9 @@ namespace ExpressionLib
                 case BinaryOp.Power:
                     return BuiltinFunctions.Pow(v1, v2);
                 default:
+		#if false
                     _host.Assert(false);
+		    #endif
                     return R4.NaN;
             }
         }
@@ -817,12 +865,15 @@ namespace ExpressionLib
                 case BinaryOp.Power:
                     return Math.Pow(v1, v2);
                 default:
+		#if false
                     _host.Assert(false);
+		    #endif
                     return R8.NaN;
             }
         }
         #endregion BinOp
 
+#if false
         public override void PostVisit(ConditionalNode node)
         {
             _host.AssertValue(node);
@@ -1636,17 +1687,23 @@ namespace ExpressionLib
 
             return false;
         }
+#endif
 
         public override void PostVisit(WithNode node)
         {
+	#if false
             _host.Assert(false);
+	    #endif
         }
 
         public override void PostVisit(WithLocalNode node)
         {
+	#if false
             _host.AssertValue(node);
+	    #endif
         }
 
+#if false
         // This aggregates the type of expr into itemKind. It returns false
         // if an error condition is encountered. This takes into account
         // possible conversions.

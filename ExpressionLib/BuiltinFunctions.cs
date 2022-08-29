@@ -11,16 +11,16 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
-#if false
+
 using Microsoft.ML.Data;
-using Microsoft.ML.Data.Conversion;
+#if false
+using Microsoft.ML.Data.Conversion;  // FIXME -- not sure what nuget package contains this
 using Microsoft.ML.Internal.Utilities;
 using Microsoft.ML.Runtime;
 #endif
 
 namespace ExpressionLib
 {
-#if false
     using BL = System.Boolean;
     using I4 = System.Int32;
     using I8 = System.Int64;
@@ -318,6 +318,7 @@ namespace ExpressionLib
                         FunctionProviderUtils.Fn<R4, BL>(IsNA),
                         FunctionProviderUtils.Fn<R8, BL>(IsNA));
 
+#if false
                 case "bool":
                     return FunctionProviderUtils.Ret(
                         FunctionProviderUtils.Fn<TX, BL>(ToBL),
@@ -355,6 +356,7 @@ namespace ExpressionLib
                         FunctionProviderUtils.Fn<R8, R8>(ToR8),
                         FunctionProviderUtils.Fn<BL, R8>(Convert.ToDouble),
                         FunctionProviderUtils.Fn<TX, R8>(ToR8));
+	#endif
                 case "text":
                     return FunctionProviderUtils.Ret(
                         FunctionProviderUtils.Fn<I4, TX>(ToTX),
@@ -844,6 +846,7 @@ namespace ExpressionLib
             return R8.IsNaN(a);
         }
 
+#if false
         public static BL ToBL(TX a)
         {
             BL res = default(BL);
@@ -864,6 +867,7 @@ namespace ExpressionLib
             Conversions.DefaultInstance.Convert(in a, ref res);
             return res;
         }
+	#endif
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static R4 ToR4(R4 a)
@@ -880,12 +884,14 @@ namespace ExpressionLib
             return (R4)a;
         }
 
+#if false
         public static R4 ToR4(TX a)
         {
             R4 res = default(R4);
             Conversions.DefaultInstance.Convert(in a, ref res);
             return res;
         }
+	#endif
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static R8 ToR8(R4 a)
@@ -902,12 +908,14 @@ namespace ExpressionLib
             return a;
         }
 
+#if false
         public static R8 ToR8(TX a)
         {
             R8 res = default(R8);
             Conversions.DefaultInstance.Convert(in a, ref res);
             return res;
         }
+	#endif
 
         public static TX ToTX(I4 src) => src.ToString().AsMemory();
         public static TX ToTX(I8 src) => src.ToString().AsMemory();
@@ -1099,5 +1107,4 @@ namespace ExpressionLib
             return res;
         }
     }
-    #endif
 }
