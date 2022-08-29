@@ -77,17 +77,19 @@ namespace ExpressionLib
         /// </summary>
         public static uint HashString(ReadOnlySpan<char> str) => MurmurHash(_defaultSeed, str);
 
-#if false
         /// <summary>
         /// Hash the characters in a string builder. This MUST produce the same result
         /// as HashString(sb.ToString()).
         /// </summary>
         public static uint HashString(StringBuilder sb)
         {
+#if false
             Contracts.AssertValue(sb);
+#endif
             return MurmurHash(_defaultSeed, sb, 0, sb.Length);
         }
 
+#if false
         public static uint HashSequence(uint[] sequence, int min, int lim)
         {
             return MurmurHash(_defaultSeed, sequence, min, lim);
@@ -277,6 +279,7 @@ namespace ExpressionLib
 
             return hash;
         }
+#endif
 
         /// <summary>
         /// Implements the murmur hash 3 algorithm, using a mock UTF-8 encoding.
@@ -290,7 +293,9 @@ namespace ExpressionLib
         /// </summary>
         public static uint MurmurHash(uint hash, StringBuilder data, int ichMin, int ichLim, bool toUpper = false)
         {
+#if false
             Contracts.Assert(0 <= ichMin && ichMin <= ichLim && ichLim <= Utils.Size(data));
+#endif
 
             uint seed = hash;
 
@@ -302,9 +307,11 @@ namespace ExpressionLib
             int bits = 0;
             for (int ich = ichMin; ich < ichLim; ich++)
             {
+#if false
                 Contracts.Assert((bits & 0x7) == 0);
                 Contracts.Assert((uint)bits <= 24);
                 Contracts.Assert(cur <= 0x00FFFFFF);
+#endif
 
                 uint ch = toUpper ? char.ToUpperInvariant(data[ich]) : data[ich];
                 if (ch <= 0x007F)
@@ -319,7 +326,9 @@ namespace ExpressionLib
                 }
                 else
                 {
+#if false
                     Contracts.Assert(ch <= 0xFFFF);
+#endif
                     cur |= (ulong)((ch & 0x003F) | ((ch << 2) & 0x3F00) | ((ch << 4) & 0x0F0000) | 0xE08080) << bits;
                     bits += 24;
                 }
@@ -332,9 +341,11 @@ namespace ExpressionLib
                     len += 4;
                 }
             }
+#if false
             Contracts.Assert((bits & 0x7) == 0);
             Contracts.Assert((uint)bits <= 24);
             Contracts.Assert(cur <= 0x00FFFFFF);
+#endif
 
             if (bits > 0)
             {
@@ -348,7 +359,9 @@ namespace ExpressionLib
             // Final mixing ritual for the hash.
             hash = MixHash(hash);
 
+#if false
             Contracts.Assert(hash == MurmurHash(seed, data.ToString().AsSpan()));
+#endif
             return hash;
         }
 
@@ -357,9 +370,11 @@ namespace ExpressionLib
         /// </summary>
         public static uint MurmurHash(uint hash, uint[] data, int min, int lim)
         {
+#if false
             Contracts.Check(0 <= min);
             Contracts.Check(min <= lim);
             Contracts.Check(lim <= Utils.Size(data));
+#endif
 
             for (int i = min; i < lim; i++)
                 hash = MurmurRound(hash, data[i]);
@@ -371,14 +386,13 @@ namespace ExpressionLib
 
             return hash;
         }
-#endif
 
-        /// <summary>
-        /// The final mixing ritual for the Murmur3 hashing algorithm. Most users of
-        /// <see cref="MurmurRound"/> will want to close their progressive building of
-        /// a hash with a call to this method.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            /// <summary>
+            /// The final mixing ritual for the Murmur3 hashing algorithm. Most users of
+            /// <see cref="MurmurRound"/> will want to close their progressive building of
+            /// a hash with a call to this method.
+            /// </summary>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint MixHash(uint hash)
         {
             hash ^= hash >> 16;

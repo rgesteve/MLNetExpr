@@ -178,7 +178,6 @@ namespace ExpressionLib
                 return Get(str, true, duplicateStr);
             }
 
-#if false
             /// <summary>
             /// Make sure the given string has an equivalent NormStr in the pool and return it.
             /// </summary>
@@ -211,7 +210,9 @@ namespace ExpressionLib
                     }
                     ins = (int)Utils.GetHi(meta);
                 }
+#if false
                 Contracts.Assert(ins == -1);
+#endif
 
                 return add ? AddCore(sb.ToString().AsMemory(), hash) : null;
             }
@@ -223,7 +224,6 @@ namespace ExpressionLib
             {
                 return Get(sb, true);
             }
-#endif
 
             /// <summary>
             /// Adds the item. Does NOT check for whether the item is already present.
@@ -269,15 +269,14 @@ namespace ExpressionLib
                 return ns;
             }
 
-#if false
             public NormStr GetNormStrById(int id)
             {
+#if false
                 Contracts.CheckParam(0 <= id && id < _cns, nameof(id));
+#endif
                 return GetNs(id);
             }
-#endif
-
-            private NormStr GetNs(int ins)
+                private NormStr GetNs(int ins)
             {
 	    #if false
                 Contracts.Assert(0 <= ins && ins < _cns);
