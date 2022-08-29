@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionLib", "ExpressionLib\ExpressionLib.csproj", "{A6A1799C-E0DA-405D-B788-720A9B2022A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionLibTests", "ExpressionLibTests\ExpressionLibTests.csproj", "{A9500FD6-6EE2-4DA5-8924-4E86F9649686}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A6A1799C-E0DA-405D-B788-720A9B2022A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6A1799C-E0DA-405D-B788-720A9B2022A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6A1799C-E0DA-405D-B788-720A9B2022A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6A1799C-E0DA-405D-B788-720A9B2022A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9500FD6-6EE2-4DA5-8924-4E86F9649686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9500FD6-6EE2-4DA5-8924-4E86F9649686}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9500FD6-6EE2-4DA5-8924-4E86F9649686}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9500FD6-6EE2-4DA5-8924-4E86F9649686}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
