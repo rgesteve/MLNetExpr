@@ -9,7 +9,11 @@ using Microsoft.ML.Runtime;
 
 namespace ExpressionLib
 {
+#if false
     internal enum TokKind
+#else
+    public enum TokKind
+#endif
     {
         None,
 
@@ -100,7 +104,6 @@ namespace ExpressionLib
         With,
     }
 
-#if false
     public enum ErrId
     {
         None,
@@ -123,7 +126,11 @@ namespace ExpressionLib
         UniEscInPreProc,
     }
 
+#if false
     internal static class ErrIdExt
+#else
+    public static class ErrIdExt
+#endif
     {
         public static string GetMsgFmt(this ErrId eid, out int carg)
         {
@@ -165,21 +172,26 @@ namespace ExpressionLib
                     return "Unicode escapes not permitted in preprocessor directives";
 
                 default:
+		#if false
                     Contracts.Assert(false, "Unknown error id: " + eid);
+		    #endif
                     return "Unknown error";
             }
         }
+
 
         public static string GetMsg(this ErrId eid, params object[] args)
         {
             int carg;
             string fmt = eid.GetMsgFmt(out carg);
+#if false
             Contracts.Assert(carg == Utils.Size(args));
+#endif
             if (carg == 0)
                 return fmt;
             string msg = string.Format(fmt, args);
             return msg;
         }
     }
-#endif
+
 }

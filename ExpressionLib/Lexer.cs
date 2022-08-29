@@ -13,11 +13,12 @@ using Microsoft.ML.Runtime;
 
 namespace ExpressionLib
 {
-#if false
     /// <summary>
     /// The lexer. This is effectively a template. Call LexSource to get an Enumerable of tokens.
     /// </summary>
+    #if false
     [BestFriend]
+    #endif
     internal partial class Lexer
     {
         private readonly NormStr.Pool _pool;
@@ -28,15 +29,19 @@ namespace ExpressionLib
         /// </summary>
         public Lexer(NormStr.Pool pool, KeyWordTable kwt)
         {
+	    #if false
             Contracts.AssertValue(pool);
             Contracts.AssertValue(kwt);
+	    #endif
             _pool = pool;
             _kwt = kwt;
         }
 
         public IEnumerable<Token> LexSource(CharCursor cursor)
         {
+	    #if false
             Contracts.AssertValue(cursor);
+	    #endif
 
             LexerImpl impl = new LexerImpl(this, cursor);
             Token tok;
@@ -153,22 +158,28 @@ namespace ExpressionLib
 
                 // Only new lines and errors should be enqueued.
                 Token tok = _queue.Dequeue();
+		#if false
                 Contracts.Assert(tok.Kind == TokKind.NewLine || tok.Kind == TokKind.Error);
+		#endif
                 return tok;
             }
-
+	    
             /// <summary>
             /// Call once GetNextToken returns null if you need an Eof token.
             /// </summary>
             public EofToken GetEof()
             {
+	    #if false
                 Contracts.Assert(Eof);
+		#endif
                 return new EofToken(GetTextSpan(_cursor.IchCur, _cursor.IchCur));
             }
 
             private Token FetchToken()
             {
+	    #if false
                 Contracts.Assert(!Eof);
+		#endif
                 StartTok();
 
                 LexStartKind kind = LexCharUtils.StartKind(ChCur);
@@ -250,8 +261,10 @@ namespace ExpressionLib
             /// </summary>
             private Token LexNumLit()
             {
+#if false
                 Contracts.Assert(LexCharUtils.StartKind(ChCur) == LexStartKind.NumLit);
                 Contracts.Assert(LexCharUtils.IsDigit(ChCur) || ChCur == '.');
+#endif
 
                 // A dot not followed by a digit is just a Dot. This is a very common case (hence first).
                 if (ChCur == '.' && !LexCharUtils.IsDigit(ChPeek(1)))
@@ -268,7 +281,9 @@ namespace ExpressionLib
                 }
 
                 // Decimal literal (possible floating point).
+#if false
                 Contracts.Assert(LexCharUtils.IsDigit(ChCur) || ChCur == '.' && LexCharUtils.IsDigit(ChPeek(1)));
+#endif
                 bool fExp = false;
                 bool fDot = ChCur == '.';
                 _sb.Length = 0;
@@ -316,7 +331,9 @@ namespace ExpressionLib
             /// </summary>
             private Token LexHexInt()
             {
+#if false
                 Contracts.Assert(LexCharUtils.IsHexDigit(ChCur));
+#endif
 
                 ulong u = 0;
                 bool fOverflow = false;
@@ -343,7 +360,9 @@ namespace ExpressionLib
             private Token LexDecInt(IntLitKind ilk)
             {
                 // Digits are in _sb.
+#if false
                 Contracts.Assert(_sb.Length > 0);
+#endif
                 ulong u = 0;
 
                 try
@@ -365,13 +384,17 @@ namespace ExpressionLib
             private Token LexRealNum(char chSuf)
             {
                 // Digits are in _sb.
+#if false
                 Contracts.Assert(_sb.Length > 0);
+#endif
 
                 TextSpan span = GetSpan();
                 switch (chSuf)
                 {
                     default:
+#if false
                         Contracts.Assert(chSuf == '\0' || chSuf == 'D');
+#endif
                         try
                         {
                             double dbl = double.Parse(_sb.ToString(), NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent);
@@ -466,7 +489,9 @@ namespace ExpressionLib
                 {
                     chQuote = '"';
                     ChNext();
+		    #if false
                     Contracts.Assert(ChCur == '"');
+#endif
                     ChNext();
                     for (; ; )
                     {
@@ -492,7 +517,9 @@ namespace ExpressionLib
                 }
                 else
                 {
+#if false
                     Contracts.Assert(ChCur == '"' || ChCur == '\'');
+		    #endif
                     chQuote = ChCur;
 
                     ChNext();
@@ -540,7 +567,9 @@ namespace ExpressionLib
             /// </summary>
             private bool FLexEscChar(bool fUniOnly, out uint u)
             {
+#if false
                 Contracts.Assert(ChCur == '\\');
+#endif
 
                 int ichErr = _cursor.IchCur;
                 bool fUni;
@@ -636,7 +665,9 @@ LHex:
             /// </summary>
             private bool ConvertToSurrogatePair(uint u, out char ch1, out char ch2)
             {
+	    #if false
                 Contracts.Assert(u > 0x0000FFFF);
+		#endif
                 if (u > 0x0010FFFF)
                 {
                     ReportError(ErrId.BadEscape);
@@ -678,7 +709,9 @@ LHex:
 
             private NormStr LexIdentCore(ref bool fVerbatim)
             {
+	    #if false
                 Contracts.Assert(LexCharUtils.IsIdentStart(ChCur));
+		#endif
 
                 _sb.Length = 0;
                 for (; ; )
@@ -705,7 +738,9 @@ LHex:
                         ch = ChCur;
                         ChNext();
                     }
+		    #if false
                     Contracts.Assert(LexCharUtils.IsIdent(ch));
+		    #endif
                     if (!LexCharUtils.IsFormat(ch))
                         _sb.Append(ch);
                 }
@@ -721,7 +756,9 @@ LHex:
             /// </summary>
             private Token LexComment()
             {
+	    #if false
                 Contracts.Assert(ChCur == '/');
+		#endif
                 int ichErr = _cursor.IchCur;
 
                 switch (ChPeek(1))
@@ -784,7 +821,9 @@ LHex:
             /// </summary>
             private Token LexSpace()
             {
+	    #if false
                 Contracts.Assert(LexCharUtils.StartKind(ChCur) == LexStartKind.Space);
+		#endif
                 while (LexCharUtils.IsSpace(ChNext()))
                     ;
                 return null;
@@ -798,7 +837,9 @@ LHex:
             /// </summary>
             private char LexLineTerm(StringBuilder sb = null)
             {
+	    #if false
                 Contracts.Assert(LexCharUtils.StartKind(ChCur) == LexStartKind.LineTerm);
+		#endif
                 int ichMin = _cursor.IchCur;
                 if (ChCur == '\xD' && ChPeek(1) == '\xA')
                 {
@@ -822,7 +863,7 @@ LHex:
                 _fLineStart = true;
                 return ch;
             }
-
+	    
             private Token LexPreProc()
             {
                 // We don't currently support pre-processing.
@@ -844,5 +885,4 @@ LHex:
             }
         }
     }
-#endif
 }

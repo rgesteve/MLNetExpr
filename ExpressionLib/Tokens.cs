@@ -13,13 +13,18 @@ namespace ExpressionLib
 {
 #if false
     internal struct TextSpan
+#else
+    public struct TextSpan
+#endif
     {
         public readonly int Min;
         public readonly int Lim;
 
         public TextSpan(int ichMin, int ichLim)
         {
+#if false
             Contracts.Assert(0 <= ichMin && ichMin <= ichLim);
+#endif
             Min = ichMin;
             Lim = ichLim;
         }
@@ -30,7 +35,11 @@ namespace ExpressionLib
         }
     }
 
+#if false
     internal abstract class Token
+#else
+    public abstract class Token
+#endif
     {
         public readonly TokKind Kind;
         public readonly TokKind KindContext;
@@ -43,6 +52,7 @@ namespace ExpressionLib
             KindContext = tid;
         }
 
+#if false
         protected Token(TextSpan span, TokKind tid, TokKind tidContext)
         {
             // Currently the only contextual variability is that an identifier might double as a keyword.
@@ -62,8 +72,9 @@ namespace ExpressionLib
         {
             return Kind.ToString();
         }
+	#endif
     }
-
+    
     // Keyword/punctuation token
     internal sealed class KeyToken : Token
     {
@@ -186,7 +197,9 @@ namespace ExpressionLib
 
         private static bool AllDigits(string s)
         {
+	#if false
             Contracts.AssertNonEmpty(s);
+	    #endif
             for (int i = 0; i < s.Length; i++)
             {
                 if ((uint)(s[i] - '0') > 9)
@@ -223,7 +236,9 @@ namespace ExpressionLib
 
         public static void Write(TextWriter wrt, string str)
         {
+	#if false
             Contracts.AssertValue(str);
+	    #endif
 
             wrt.Write('"');
             int ich = 0;
@@ -292,5 +307,4 @@ namespace ExpressionLib
         {
         }
     }
-#endif
 }

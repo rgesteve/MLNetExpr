@@ -10,11 +10,16 @@ using Microsoft.ML.Runtime;
 
 namespace ExpressionLib
 {
-#if false
+
     using Conditional = System.Diagnostics.ConditionalAttribute;
 
+#if false
     internal sealed class TokenCursor
+#else
+    public sealed class TokenCursor
+#endif
     {
+#if false
         // This is the token stream. We cache items as we consume them.
         // This code assumes that the enumerator will produce an Eof token,
         // When the Eof is produced, _tokens is disposed and set to null.
@@ -195,6 +200,7 @@ namespace ExpressionLib
 
             return _buffer[_itokCur + ditok];
         }
-    }
 #endif
+    }
+
 }

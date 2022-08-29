@@ -24,7 +24,6 @@ namespace ExpressionLib
          return a + b;
      }
 
-#if false
         public struct SourcePos
         {
             public readonly int IchMin;
@@ -36,8 +35,10 @@ namespace ExpressionLib
 
             public SourcePos(List<int> lineMap, TextSpan span, int lineMin = 1)
             {
+	    #if false
                 Contracts.AssertValue(lineMap);
                 Contracts.Assert(span.Min <= span.Lim);
+		#endif
 
                 IchMin = span.Min;
                 IchLim = span.Lim;
@@ -51,11 +52,11 @@ namespace ExpressionLib
                     return;
                 }
 
+
                 int index = FindIndex(lineMap, IchMin, 0);
                 LineMin = index + lineMin;
                 int ichBase = index == 0 ? 0 : lineMap[index - 1];
                 ColumnMin = IchMin - ichBase + 1;
-
                 if (index == lineMap.Count || IchLim < lineMap[index])
                 {
                     // Same line.
@@ -65,7 +66,9 @@ namespace ExpressionLib
                 else
                 {
                     index = FindIndex(lineMap, IchLim, index);
+		    #if false
                     Contracts.Assert(index > 0);
+		    #endif
                     ichBase = lineMap[index - 1];
                     LineLim = index + lineMin;
                     ColumnLim = IchLim - ichBase + 1;
@@ -74,7 +77,9 @@ namespace ExpressionLib
 
             private static int FindIndex(List<int> map, int value, int ivMin)
             {
+#if false
                 Contracts.Assert(ivMin <= map.Count);
+#endif
                 int ivLim = map.Count;
                 while (ivMin < ivLim)
                 {
@@ -84,16 +89,20 @@ namespace ExpressionLib
                     else
                         ivLim = iv;
                 }
+		#if false
                 Contracts.Assert(0 <= ivMin && ivMin <= map.Count);
                 Contracts.Assert(ivMin == map.Count || value < map[ivMin]);
                 Contracts.Assert(ivMin == 0 || value >= map[ivMin - 1]);
+		#endif
                 return ivMin;
             }
+
         }
 
         // This is re-usable state (if we choose to re-use).
         private readonly NormStr.Pool _pool;
         private readonly KeyWordTable _kwt;
+	#if false
         private readonly Lexer _lex;
 
         // Created lazily. If we choose to share static state in the future, this

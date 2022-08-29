@@ -10,7 +10,6 @@ using Microsoft.ML.Runtime;
 
 namespace ExpressionLib
 {
-#if false
     /// <summary>
     /// Maps from normalized string to keyword token kind. A lexer must be provided with one of these.
     /// </summary>
@@ -34,22 +33,29 @@ namespace ExpressionLib
 
         public KeyWordTable(NormStr.Pool pool)
         {
+	#if false
             Contracts.AssertValue(pool);
+	    #endif
 
             _pool = pool;
             _mpnstrtidWord = new Dictionary<NormStr, KeyWordKind>();
             _mpnstrtidPunc = new Dictionary<NormStr, TokKind>();
         }
 
+
         public void AddKeyWord(string str, TokKind tid)
         {
+	    #if false
             Contracts.AssertNonEmpty(str);
+	    #endif
             _mpnstrtidWord.Add(_pool.Add(str), new KeyWordKind(tid, false));
         }
 
         public bool TryAddPunctuator(string str, TokKind tid)
         {
+	    #if false
             Contracts.AssertNonEmpty(str);
+	    #endif
 
             // Note: this assumes that once a prefix is found, that all shorter
             // prefixes are mapped to something (TokKind.None to indicate that
@@ -82,20 +88,29 @@ namespace ExpressionLib
 
         public void AddPunctuator(string str, TokKind tid)
         {
+	#if false
             Contracts.AssertNonEmpty(str);
-            if (!TryAddPunctuator(str, tid))
+	    #endif
+            if (!TryAddPunctuator(str, tid)) {
+	    #if false
                 Contracts.Assert(false, "duplicate punctuator!");
+		#endif
+		}
         }
 
         public bool IsKeyWord(NormStr nstr, out KeyWordKind kind)
         {
+	#if false
             Contracts.Assert(!nstr.Value.IsEmpty);
+	    #endif
             return _mpnstrtidWord.TryGetValue(nstr, out kind);
         }
 
         public bool IsPunctuator(NormStr nstr, out TokKind tid)
         {
+	#if false
             Contracts.Assert(!nstr.Value.IsEmpty);
+	    #endif
             return _mpnstrtidPunc.TryGetValue(nstr, out tid);
         }
 
@@ -109,5 +124,5 @@ namespace ExpressionLib
             get { return _mpnstrtidWord; }
         }
     }
-    #endif
+
 }

@@ -10,7 +10,6 @@ using Microsoft.ML.Runtime;
 
 namespace ExpressionLib
 {
-#if false
     /// <summary>
     /// Indicates which lex routine should be called when this character is the first
     /// character of a token. Each character is associated with exactly one of these values.
@@ -102,6 +101,7 @@ namespace ExpressionLib
         // The mapping from character to CharInfo for characters less than 128.
         private static readonly LexCharInfo[] _rgchi;
 
+    #if false
         static LexCharUtils()
         {
             // Init the array of CharInfo's.
@@ -153,6 +153,7 @@ namespace ExpressionLib
             foreach (char ch in "!%&()*+,-:;<=>?[]^{|}~")
                 _rgchi[ch] = info;
         }
+#endif
 
         private static UniCatFlags GetCatFlags(char ch)
         {
@@ -179,26 +180,31 @@ namespace ExpressionLib
         {
             return ch < _rgchi.Length && _rgchi[ch].Is(LexCharKind.Punc);
         }
+
         public static bool IsDigit(char ch)
         {
             return ch < _rgchi.Length && _rgchi[ch].Is(LexCharKind.Digit);
         }
+
         public static bool IsHexDigit(char ch)
         {
             return ch < _rgchi.Length && _rgchi[ch].Is(LexCharKind.HexDigit);
         }
+#if false
         public static bool IsIdentStart(char ch)
         {
             if (ch < _rgchi.Length)
                 return _rgchi[ch].Is(LexCharKind.Ident) && !_rgchi[ch].Is(LexCharKind.Digit);
             return (GetCatFlags(ch) & UniCatFlags.IdentPartChar) != 0;
         }
+#endif
         public static bool IsIdent(char ch)
         {
             if (ch < _rgchi.Length)
                 return _rgchi[ch].Is(LexCharKind.Ident);
             return (GetCatFlags(ch) & UniCatFlags.IdentPartChar) != 0;
         }
+
         public static bool IsFormat(char ch)
         {
             return ch >= _rgchi.Length && CharUnicodeInfo.GetUnicodeCategory(ch) == UnicodeCategory.Format;
@@ -218,24 +224,34 @@ namespace ExpressionLib
 
         public static int GetDecVal(char ch)
         {
+#if false
             Contracts.Assert('0' <= ch && ch <= '9');
+#endif
             return ch - '0';
         }
 
         public static int GetHexVal(char ch)
         {
+#if false
             Contracts.Assert(IsHexDigit(ch));
+#endif
             if (ch >= 'a')
             {
+#if false
                 Contracts.Assert(ch <= 'f');
+#endif
                 return ch - ('a' - 10);
             }
             if (ch >= 'A')
             {
+#if false
                 Contracts.Assert(ch <= 'F');
+#endif
                 return ch - ('A' - 10);
             }
+#if false
             Contracts.Assert('0' <= ch && ch <= '9');
+#endif
             return ch - '0';
         }
 
@@ -250,5 +266,5 @@ namespace ExpressionLib
             return string.Format(@"\U{0:X8}", u);
         }
     }
-#endif
+
 }
