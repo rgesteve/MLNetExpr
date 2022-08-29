@@ -65,9 +65,7 @@ namespace ExpressionLib
 
         public T As<T>() where T : Token
         {
-	#if false
             Contracts.Assert(this is T);
-	    #endif
             return (T)this;
         }
 

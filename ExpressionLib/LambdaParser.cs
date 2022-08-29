@@ -218,7 +218,6 @@ namespace ExpressionLib
         }
 	#endif
 
-#if false
         private void AddError(Error err)
         {
             Contracts.Assert(_errors == null || _errors.Count > 0);
@@ -821,6 +820,5 @@ namespace ExpressionLib
             var value = ParseExpr();
             return new WithLocalNode(tok, name, value);
         }
-#endif
     }
 }
