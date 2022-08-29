@@ -4,10 +4,12 @@
 
 using System;
 using System.Collections.Generic;
-#if false
 using Microsoft.ML.Data;
+#if false
 using Microsoft.ML.Internal.Utilities;
 using Microsoft.ML.Runtime;
+#else
+using Microsoft.ML;
 #endif
 
 namespace ExpressionLib
@@ -102,7 +104,6 @@ namespace ExpressionLib
         // This is re-usable state (if we choose to re-use).
         private readonly NormStr.Pool _pool;
         private readonly KeyWordTable _kwt;
-	#if false
         private readonly Lexer _lex;
 
         // Created lazily. If we choose to share static state in the future, this
@@ -171,12 +172,15 @@ namespace ExpressionLib
             w("with", TokKind.With);
         }
 
+#if false
         public static LambdaNode Parse(out List<Error> errors, out List<int> lineMap, CharCursor chars, int[] perm, params DataViewType[] types)
         {
+	#if false
             Contracts.AssertValue(chars);
             Contracts.AssertNonEmpty(types);
             Contracts.Assert(types.Length <= LambdaCompiler.MaxParams);
             Contracts.Assert(Utils.Size(perm) == types.Length);
+	    #endif
 
             LambdaParser psr = new LambdaParser();
             return psr.ParseCore(out errors, out lineMap, chars, perm, types);
@@ -184,9 +188,11 @@ namespace ExpressionLib
 
         private LambdaNode ParseCore(out List<Error> errors, out List<int> lineMap, CharCursor chars, int[] perm, DataViewType[] types)
         {
+	#if false
             Contracts.AssertValue(chars);
             Contracts.AssertNonEmpty(types);
             Contracts.Assert(Utils.Size(perm) == types.Length);
+	    #endif
 
             _errors = null;
             _lineMap = new List<int>();
@@ -210,7 +216,9 @@ namespace ExpressionLib
 
             return node;
         }
+	#endif
 
+#if false
         private void AddError(Error err)
         {
             Contracts.Assert(_errors == null || _errors.Count > 0);

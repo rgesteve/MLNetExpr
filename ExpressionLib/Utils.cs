@@ -15,6 +15,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 #if false
 using Microsoft.ML.Runtime;
+#else
+using Microsoft.ML;
+using Microsoft.ML.Data;
 #endif
 
 #if false
@@ -30,7 +33,6 @@ namespace ExpressionLib
     {
         public const int ArrayMaxSize = ArrayUtils.ArrayMaxSize;
 
-#if false
         public static bool StartsWithInvariantCultureIgnoreCase(this string str, string startsWith)
         {
             return str.StartsWith(startsWith, StringComparison.InvariantCultureIgnoreCase);
@@ -53,7 +55,6 @@ namespace ExpressionLib
             while (iMin < --iLim)
                 Swap(ref a[iMin++], ref a[iLim]);
         }
-#endif
 
         // Getting the size of a collection, when the collection may be null.
 
@@ -546,10 +547,11 @@ namespace ExpressionLib
             return minCur;
         }
 
-#if false
         public static int[] GetIdentityPermutation(int size)
         {
+	#if false
             Contracts.Assert(size >= 0);
+	    #endif
 
             var res = new int[size];
             for (int i = 0; i < size; i++)
@@ -559,7 +561,9 @@ namespace ExpressionLib
 
         public static void FillIdentity(Span<int> a, int lim)
         {
+	#if false
             Contracts.Assert(0 <= lim && lim <= a.Length);
+	    #endif
 
             for (int i = 0; i < lim; ++i)
                 a[i] = i;
@@ -584,23 +588,29 @@ namespace ExpressionLib
 
         public static int[] InvertPermutation(int[] perm)
         {
+	#if false
             Contracts.AssertValue(perm);
+	    #endif
 
             var res = new int[perm.Length];
             for (int i = 0; i < perm.Length; i++)
             {
                 int j = perm[i];
+		#if false
                 Contracts.Assert(0 <= j && j < perm.Length);
                 Contracts.Assert(res[j] == 0 && (j != perm[0] || i == 0));
+		#endif
                 res[j] = i;
             }
             return res;
         }
-
+	
         public static int[] GetRandomPermutation(Random rand, int size)
         {
+	#if false
             Contracts.AssertValue(rand);
             Contracts.Assert(size >= 0);
+	    #endif
 
             var res = GetIdentityPermutation(size);
             Shuffle<int>(rand, res);
@@ -643,7 +653,9 @@ namespace ExpressionLib
 
         public static void Shuffle<T>(Random rand, Span<T> rgv)
         {
+	#if false
             Contracts.AssertValue(rand);
+	    #endif
 
             for (int iv = 0; iv < rgv.Length; iv++)
                 Swap(ref rgv[iv], ref rgv[iv + rand.Next(rgv.Length - iv)]);
@@ -796,7 +808,9 @@ namespace ExpressionLib
         /// </summary>
         public static bool IsIncreasing(int min, ReadOnlySpan<int> values, int len, int lim)
         {
+	#if false
             Contracts.Check(values.Length >= len);
+	    #endif
             if (len < 1)
                 return true;
 
@@ -817,7 +831,9 @@ namespace ExpressionLib
         /// </summary>
         public static T[] CreateArray<T>(int length, T value)
         {
+	#if false
             Contracts.Assert(length >= 0, "Length can't be negative");
+	    #endif
             var result = new T[length];
             for (int i = 0; i < length; i++)
                 result[i] = value;
@@ -826,7 +842,9 @@ namespace ExpressionLib
 
         public static bool[] BuildArray(int length, IEnumerable<DataViewSchema.Column> columnsNeeded)
         {
+	#if false
             Contracts.CheckParam(length >= 0, nameof(length));
+	    #endif
 
             var result = new bool[length];
             foreach (var col in columnsNeeded)
@@ -840,8 +858,10 @@ namespace ExpressionLib
 
         public static T[] BuildArray<T>(int length, Func<int, T> func)
         {
+	#if false
             Contracts.CheckParam(length >= 0, nameof(length));
             Contracts.CheckValue(func, nameof(func));
+	    #endif
 
             var result = new T[length];
             for (int i = 0; i < result.Length; i++)
@@ -865,9 +885,11 @@ namespace ExpressionLib
         /// <c><paramref name="invMap"/>[i] == -1</c></param>
         public static void BuildSubsetMaps(DataViewSchema schema, Func<DataViewSchema.Column, bool> pred, out int[] map, out int[] invMap)
         {
+	#if false
             Contracts.CheckValue(schema, nameof(schema));
             Contracts.Check(schema.Count > 0, nameof(schema));
             Contracts.CheckValue(pred, nameof(pred));
+	    #endif
             // REVIEW: Better names?
             List<int> mapList = new List<int>();
             invMap = new int[schema.Count];
@@ -900,8 +922,10 @@ namespace ExpressionLib
         /// <c><paramref name="invMap"/>[i] == -1</c></param>
         public static void BuildSubsetMaps(int lim, Func<int, bool> pred, out int[] map, out int[] invMap)
         {
+	#if false
             Contracts.CheckParam(lim >= 0, nameof(lim));
             Contracts.CheckValue(pred, nameof(pred));
+	    #endif
             // REVIEW: Better names?
             List<int> mapList = new List<int>();
             invMap = new int[lim];
@@ -935,8 +959,10 @@ namespace ExpressionLib
         /// <c><paramref name="invMap"/>[i] == -1</c></param>
         public static void BuildSubsetMaps(int lim, IEnumerable<DataViewSchema.Column> columnsNeeded, out int[] map, out int[] invMap)
         {
+	#if false
             Contracts.CheckParam(lim >= 0, nameof(lim));
             Contracts.CheckValue(columnsNeeded, nameof(columnsNeeded));
+	    #endif
 
             // REVIEW: Better names?
             List<int> mapList = new List<int>();
@@ -944,7 +970,9 @@ namespace ExpressionLib
 
             foreach (var col in columnsNeeded)
             {
+	    #if false
                 Contracts.Check(col.Index < lim);
+		#endif
                 invMap[col.Index] = mapList.Count;
                 mapList.Add(col.Index);
             }
@@ -986,8 +1014,10 @@ namespace ExpressionLib
                 if (ne == null && size > 0)
                     ne = a;
             }
+	    #if false
             Contracts.Assert(nn != null || size == 0);
             Contracts.Assert((ne == null) == (size == 0));
+	    #endif
 
             // If the size is zero, return the first non-null.
             if (size == 0)
@@ -1006,10 +1036,12 @@ namespace ExpressionLib
                 Array.Copy(a, 0, res, ivDst, cv);
                 ivDst += cv;
             }
+	    #if false
             Contracts.Assert(ivDst == size);
+	    #endif
             return res;
         }
-
+	
         /// <summary>
         /// Resizes the array if necessary, to ensure that it has at least <paramref name="min"/> elements.
         /// </summary>
@@ -1047,7 +1079,9 @@ namespace ExpressionLib
         /// </summary>
         public static int GetCardinality(BitArray bitArray)
         {
+	#if false
             Contracts.CheckValue(bitArray, nameof(bitArray));
+	    #endif
             int cnt = 0;
             foreach (bool b in bitArray)
             {
@@ -1057,11 +1091,16 @@ namespace ExpressionLib
             return cnt;
         }
 
+#if false
         private static MethodInfo MarshalInvokeCheckAndCreate<TRet>(Type genArg, Delegate func)
         {
             var meth = MarshalActionInvokeCheckAndCreate(genArg, func);
             if (meth.ReturnType != typeof(TRet))
+	    #if false
                 throw Contracts.ExceptParam(nameof(func), "Cannot be generic on return type");
+		#else
+		throw null;
+		#endif
             return meth;
         }
 

@@ -11,9 +11,8 @@ using Microsoft.ML.Internal.Utilities;
 using Microsoft.ML.Runtime;
 #endif
 
-namespace ExpressionList
+namespace ExpressionLib
 {
-#if false
     using BL = System.Boolean;
     using I4 = System.Int32;
     using I8 = System.Int64;
@@ -116,11 +115,14 @@ namespace ExpressionList
 
     internal abstract class NodeVisitor
     {
+    #if false
         // Visit methods for leaf node types.
         public abstract void Visit(BoolLitNode node);
         public abstract void Visit(StrLitNode node);
         public abstract void Visit(NumLitNode node);
+	#endif
         public abstract void Visit(NameNode node);
+	#if false
         public abstract void Visit(IdentNode node);
         public abstract void Visit(ParamNode node);
 
@@ -145,10 +147,12 @@ namespace ExpressionList
         public abstract void PostVisit(ListNode node);
         public abstract void PostVisit(WithNode node);
         public abstract void PostVisit(WithLocalNode node);
+	#endif
     }
 
     internal abstract class PreVisitor : NodeVisitor
     {
+    #if false
         // Visit methods for non-leaf node types.
         public abstract void Visit(LambdaNode node);
         public abstract void Visit(UnaryOpNode node);
@@ -180,8 +184,10 @@ namespace ExpressionList
         public override void PostVisit(ListNode node) { Contracts.Assert(false); }
         public override void PostVisit(WithNode node) { Contracts.Assert(false); }
         public override void PostVisit(WithLocalNode node) { Contracts.Assert(false); }
+	#endif
     }
 
+#if false
     internal abstract class ExprVisitor : NodeVisitor
     {
         // This just provides default implementations for non-expr related node types.
@@ -190,15 +196,19 @@ namespace ExpressionList
 
         public override void PostVisit(LambdaNode node) { Contracts.Assert(false); }
     }
+    #endif
 
     // Base class for all parse nodes.
     internal abstract class Node
     {
+
         public readonly Token Token;
 
         protected Node(Token tok)
         {
+	    #if false
             Contracts.AssertValue(tok);
+	    #endif
             Token = tok;
         }
 
@@ -209,10 +219,13 @@ namespace ExpressionList
 
         private T Cast<T>() where T : Node
         {
+	    #if false
             Contracts.Assert(false);
+	    #endif
             return (T)this;
         }
 
+    #if false
         // TestXxx returns null if "this" is not of the correct type.
         // In contrast AsXxx asserts that the default implementation is not being
         // used (the derived type should override). TestXxx is for when you don't know
@@ -237,8 +250,10 @@ namespace ExpressionList
         public virtual WithNode TestWith { get { return null; } }
         public virtual WithLocalNode AsWithLocal { get { return Cast<WithLocalNode>(); } }
         public virtual WithLocalNode TestWithLocal { get { return null; } }
+	#endif
         public virtual NameNode AsName { get { return Cast<NameNode>(); } }
         public virtual NameNode TestName { get { return null; } }
+	#if false
         public virtual IdentNode AsIdent { get { return Cast<IdentNode>(); } }
         public virtual IdentNode TestIdent { get { return null; } }
         public virtual BoolLitNode AsBoolLit { get { return Cast<BoolLitNode>(); } }
@@ -247,6 +262,7 @@ namespace ExpressionList
         public virtual NumLitNode TestNumLit { get { return null; } }
         public virtual StrLitNode AsStrLit { get { return Cast<StrLitNode>(); } }
         public virtual StrLitNode TestStrLit { get { return null; } }
+		#endif
 
         // Non-leaf types.
         public virtual ExprNode AsExpr { get { return Cast<ExprNode>(); } }
@@ -279,7 +295,9 @@ namespace ExpressionList
 
         private bool IsSimple(ExprTypeKind kind)
         {
+	#if false
             Contracts.Assert(ExprType != 0);
+	    #endif
             return ExprType == kind;
         }
 
@@ -315,13 +333,16 @@ namespace ExpressionList
                 {
                     ExprTypeKind kind;
                     bool tmp = LambdaBinder.CanPromote(false, SrcKind, ExprType, out kind);
+		    #if false
                     Contracts.Assert(tmp && kind == ExprType);
+		    #endif
                 }
 #endif
                 return SrcKind != ExprType;
             }
         }
 
+#if false
         public void SetType(ExprTypeKind kind)
         {
             Contracts.Assert(kind != 0);
@@ -598,8 +619,10 @@ namespace ExpressionList
             value = null;
             return false;
         }
+#endif
     }
 
+#if false
     internal sealed class LambdaNode : Node
     {
         public readonly ParamNode[] Vars;
@@ -686,6 +709,7 @@ namespace ExpressionList
             visitor.Visit(this);
         }
     }
+    #endif
 
     // A NameNode identifies the name of something. An IdentNode is an expression node
     // consisting of an identifier.
@@ -696,7 +720,9 @@ namespace ExpressionList
         public NameNode(IdentToken tok)
             : base(tok)
         {
+	#if false
             Contracts.AssertNonEmpty(tok.Value);
+	    #endif
             Value = tok.Value;
         }
 
@@ -706,11 +732,14 @@ namespace ExpressionList
 
         public override void Accept(NodeVisitor visitor)
         {
+	#if false
             Contracts.AssertValue(visitor);
+	    	#endif
             visitor.Visit(this);
         }
     }
 
+#if false
     internal sealed class IdentNode : ExprNode
     {
         public readonly string Value;

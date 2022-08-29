@@ -9,9 +9,8 @@ using System.IO;
 using Microsoft.ML.Runtime;
 #endif
 
-namespace ExpressionList
+namespace ExpressionLib
 {
-#if false
     using BL = System.Boolean;
     using I4 = System.Int32;
     using I8 = System.Int64;
@@ -28,7 +27,9 @@ namespace ExpressionList
 
         private NodePrinter(IndentedTextWriter wrt, bool showTypes, bool showValues)
         {
+	#if false
             Contracts.AssertValue(wrt);
+	    #endif
 
             _showTypes = showTypes;
             _showValues = showValues;
@@ -38,13 +39,16 @@ namespace ExpressionList
         // Public entry point for prettyprinting TEXL parse trees
         public static void Print(Node node, TextWriter writer, bool showTypes = false, bool showValues = false)
         {
+	#if false
             Contracts.AssertValue(node);
 
             var wrt = new IndentedTextWriter(writer, "  ");
             NodePrinter printer = new NodePrinter(wrt, showTypes, showValues);
             node.Accept(printer);
+	    #endif
         }
 
+#if false
         private bool NeedParensLeft(Precedence precLeft, Precedence precOp)
         {
             if (precLeft < precOp)
@@ -341,13 +345,17 @@ namespace ExpressionList
             _wrt.Write(node.Value.ToString());
             ShowType(node);
         }
+#endif
 
         public override void Visit(NameNode node)
         {
+#if false
             Contracts.AssertValue(node);
+#endif
             _wrt.Write(node.Value);
         }
 
+#if false
         public override void Visit(IdentNode node)
         {
             Contracts.AssertValue(node);
@@ -570,6 +578,6 @@ namespace ExpressionList
             _wrt.Write(" = ");
             node.Value.Accept(this);
         }
-    }
 #endif
+    }
 }

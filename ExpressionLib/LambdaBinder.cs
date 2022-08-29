@@ -14,7 +14,6 @@ using Microsoft.ML.Runtime;
 
 namespace ExpressionLib
 {
-#if false
     using BL = System.Boolean;
     using I4 = System.Int32;
     using I8 = System.Int64;
@@ -24,6 +23,7 @@ namespace ExpressionLib
 
     internal sealed partial class LambdaBinder : NodeVisitor
     {
+    #if false
         private readonly IHost _host;
         // The stack of active with nodes.
         private readonly List<WithNode> _rgwith;
@@ -131,11 +131,13 @@ namespace ExpressionLib
             if (node.IsError)
                 PostError(node, "Overflow");
         }
+	#endif
 
         public override void Visit(NameNode node)
         {
         }
 
+#if false
         public override void Visit(IdentNode node)
         {
             _host.AssertValue(node);
@@ -1682,6 +1684,7 @@ namespace ExpressionLib
             itemKind = kindNew;
             return true;
         }
+	#endif
 
         internal static bool CanPromote(bool precise, ExprTypeKind k1, ExprTypeKind k2, out ExprTypeKind res)
         {
@@ -1703,13 +1706,17 @@ namespace ExpressionLib
                 return false;
             }
 
+#if false
             Contracts.Assert(0 <= i1 && i1 < 4);
             Contracts.Assert(0 <= i2 && i2 < 4);
             Contracts.Assert(i1 != i2);
+	    #endif
 
             // Combine the two two-bit values.
             int index = i1 | (i2 << 2);
+	    #if false
             Contracts.Assert(0 <= index && index < 16);
+	    #endif
             switch (index)
             {
                 // Only integer types -> I8
@@ -1737,7 +1744,9 @@ namespace ExpressionLib
                     return true;
 
                 default:
+		#if false
                     Contracts.Assert(false);
+		    #endif
                     res = ExprTypeKind.Error;
                     return false;
             }
@@ -1763,6 +1772,7 @@ namespace ExpressionLib
         }
     }
 
+#if false
     internal sealed partial class LambdaBinder : NodeVisitor
     {
         // This partial contains stuff needed for equality and ordered comparison.
