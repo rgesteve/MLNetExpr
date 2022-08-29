@@ -31,10 +31,10 @@ namespace ExpressionLib
         private List<Error> _errors;
         private LambdaNode _lambda;
 
-#if false
         private readonly IFunctionProvider[] _providers;
         private readonly Action<string> _printError;
 
+#if false
         private LambdaBinder(IHostEnvironment env, Action<string> printError)
         {
             _host = env.Register("LambdaBinder");
@@ -258,14 +258,14 @@ namespace ExpressionLib
             node.SetType(ExprTypeKind.Error);
         }
 
-#if false
         private void BadText(ExprNode arg)
         {
             if (!arg.IsError)
                 PostError(arg, "Invalid text operand");
+		#if false
             _host.Assert(HasErrors);
+	    #endif
         }
-	#endif
 
         private void BadArg(ExprNode arg, ExprTypeKind kind)
         {
@@ -873,10 +873,11 @@ namespace ExpressionLib
         }
         #endregion BinOp
 
-#if false
         public override void PostVisit(ConditionalNode node)
         {
+	#if false
             _host.AssertValue(node);
+	    #endif
 
             BL? cond = GetBoolOp(node.Cond);
 
@@ -1025,7 +1026,9 @@ namespace ExpressionLib
 
         public override void PostVisit(CompareNode node)
         {
+	#if false
             _host.AssertValue(node);
+	    #endif
 
             TokKind tidLax = node.TidLax;
             TokKind tidStrict = node.TidStrict;
@@ -1051,7 +1054,9 @@ namespace ExpressionLib
 
             if (hasErrors)
             {
+	    #if false
                 _host.Assert(HasErrors);
+		#endif
                 return;
             }
 
@@ -1070,7 +1075,9 @@ namespace ExpressionLib
             int ifn = (int)kind;
             if (ifn >= _fnEqual.Length || ifn < 0)
             {
+	    #if false
                 _host.Assert(false);
+		#endif
                 PostError(node, "Internal error in CompareNode");
                 return;
             }
@@ -1096,11 +1103,15 @@ namespace ExpressionLib
                     cmpStrict = cmpLax;
                     break;
                 default:
+		#if false
                     _host.Assert(false);
+		    #endif
                     return;
             }
 
+#if false
             _host.Assert((cmpLax == null) == (cmpStrict == null));
+	    #endif
             if (cmpLax == null)
             {
                 PostError(node, "Bad operands for comparison");
@@ -1125,22 +1136,32 @@ namespace ExpressionLib
                     // so != is handled separately below.
                     bool isStrict = false;
                     arg = items[0].AsExpr;
+		    #if false
                     _host.Assert(arg.ExprType == kind);
+		    #endif
                     var valuePrev = arg.ExprValue;
+		    #if false
                     _host.Assert(valuePrev != null);
+		    #endif
                     for (int i = 1; i < lim; i++)
                     {
                         TokKind tid = node.Operands.Delimiters[i - 1].Kind;
+			#if false
                         _host.Assert(tid == tidLax || tid == tidStrict);
+			#endif
 
                         if (tid == tidStrict)
                             isStrict = true;
 
                         arg = items[i].AsExpr;
+			#if false
                         _host.Assert(arg.ExprType == kind);
+			#endif
 
                         value = arg.ExprValue;
+			#if false
                         _host.Assert(value != null);
+			#endif
                         BL? res = isStrict ? cmpStrict(valuePrev, value) : cmpLax(valuePrev, value);
                         if (res == null || !res.Value)
                         {
@@ -1158,17 +1179,25 @@ namespace ExpressionLib
                     for (int i = 1; i < lim; i++)
                     {
                         arg = items[i].AsExpr;
+			#if false
                         _host.Assert(arg.ExprType == kind);
+			#endif
 
                         value = arg.ExprValue;
+			#if false
                         _host.Assert(value != null);
+			#endif
                         for (int j = 0; j < i; j++)
                         {
                             var arg2 = items[j].AsExpr;
+			    #if false
                             _host.Assert(arg2.ExprType == kind);
+			    #endif
 
                             var value2 = arg2.ExprValue;
+			    #if false
                             _host.Assert(value2 != null);
+			    #endif
                             BL? res = cmpStrict(value2, value);
                             if (res == null || !res.Value)
                             {
@@ -1354,7 +1383,9 @@ namespace ExpressionLib
 
         public override void PostVisit(CallNode node)
         {
+	#if false
             _host.AssertValue(node);
+	    #endif
 
             // Get the argument types and number of arguments.
             var kinds = node.Args.Items.Select(item => item.AsExpr.ExprType).ToArray();
@@ -1448,8 +1479,10 @@ namespace ExpressionLib
             }
             if (0 < count && count < candidates.Count)
                 candidates.RemoveRange(count, candidates.Count - count);
+		#if false
             _host.Assert(candidates.Count > 0);
             _host.Assert(count == 0 || count == candidates.Count);
+	    #endif
 
             // When there are multiple, GetBestOverload picks the one to use and emits an
             // error message if there isn't a unique best answer.
@@ -1460,7 +1493,9 @@ namespace ExpressionLib
                 best = candidates[0];
             else
             {
+	    #if false
                 _host.Assert(0 <= icandMinBad && icandMinBad < candidates.Count);
+		#endif
                 best = candidates[icandMinBad];
                 PostError(node, "The best overload of '{0}' has some invalid arguments", node.Head.Value);
             }
@@ -1479,8 +1514,10 @@ namespace ExpressionLib
             object res;
             if (best.IsIdentity)
             {
+	    #if false
                 _host.Assert(!best.IsVariable);
                 _host.Assert(best.Arity == 1);
+		#endif
                 res = args[0];
             }
             else if (!all)
@@ -1500,9 +1537,13 @@ namespace ExpressionLib
                 {
                     int head = best.Kinds.Length - 1;
                     int tail = args.Length - head;
+		    #if false
                     _host.Assert(tail >= 0);
+		    #endif
                     var type = best.Method.GetParameters()[ivMax].ParameterType;
+		    #if false
                     _host.Assert(type.IsArray);
+		    #endif
                     type = type.GetElementType();
                     Array rest = Array.CreateInstance(type, tail);
                     for (int i = 0; i < tail; i++)
@@ -1512,8 +1553,10 @@ namespace ExpressionLib
                 }
 
                 res = best.Method.Invoke(null, args);
+		#if false
                 _host.Assert(res != null);
                 _host.Assert(res.GetType() == best.Method.ReturnType);
+		#endif
             }
 
             node.SetType(best.ReturnKind, res);
@@ -1595,7 +1638,9 @@ namespace ExpressionLib
                         return val;
                     }
                 default:
+		#if false
                     _host.Assert(false, "Unexpected type in Convert");
+		    #endif
                     PostError(expr, "Internal error in Convert");
                     return null;
             }
@@ -1609,7 +1654,9 @@ namespace ExpressionLib
         /// </summary>
         private Candidate GetBestOverload(CallNode node, List<Candidate> candidates)
         {
+	#if false
             _host.Assert(Utils.Size(candidates) >= 2);
+	    #endif
 
             var dup1 = default(Candidate);
             var dup2 = default(Candidate);
@@ -1644,7 +1691,9 @@ namespace ExpressionLib
                 }
             }
 
+#if false
             _host.Assert((dup1 != null) == (dup2 != null));
+	    #endif
             if (dup1 != null)
             {
                 if (dup1.Provider.NameSpace.CompareTo(dup2.Provider.NameSpace) > 0)
@@ -1660,12 +1709,16 @@ namespace ExpressionLib
 
         public override void PostVisit(ListNode node)
         {
+	#if false
             _host.AssertValue(node);
+	    #endif
         }
 
         public override bool PreVisit(WithNode node)
         {
+	#if false
             _host.AssertValue(node);
+	    #endif
 
             // First bind the value expressions.
             node.Local.Accept(this);
@@ -1678,16 +1731,19 @@ namespace ExpressionLib
             node.Body.Accept(this);
 
             // Pop the var context.
+	    #if false
             _host.Assert(_rgwith.Count == iwith + 1);
             _host.Assert(_rgwith[iwith] == node);
+	    #endif
             _rgwith.RemoveAt(iwith);
+	    #if false
             _host.Assert(_rgwith.Count == iwith);
+	    #endif
 
             node.SetValue(node.Body);
 
             return false;
         }
-#endif
 
         public override void PostVisit(WithNode node)
         {
@@ -1703,20 +1759,23 @@ namespace ExpressionLib
 	    #endif
         }
 
-#if false
         // This aggregates the type of expr into itemKind. It returns false
         // if an error condition is encountered. This takes into account
         // possible conversions.
         private bool ValidateType(ExprNode expr, ref ExprTypeKind itemKind)
         {
+	#if false
             _host.AssertValue(expr);
             _host.Assert(expr.ExprType != 0);
+	    #endif
 
             ExprTypeKind kind = expr.ExprType;
             switch (kind)
             {
                 case ExprTypeKind.Error:
+		#if false
                     _host.Assert(HasErrors);
+		    #endif
                     return false;
                 case ExprTypeKind.None:
                     return false;
@@ -1729,7 +1788,9 @@ namespace ExpressionLib
             {
                 case ExprTypeKind.Error:
                     // This is the first non-error item type we've seen.
+		    #if false
                     _host.Assert(HasErrors);
+		    #endif
                     itemKind = kind;
                     return true;
                 case ExprTypeKind.None:
@@ -1745,7 +1806,6 @@ namespace ExpressionLib
             itemKind = kindNew;
             return true;
         }
-	#endif
 
         internal static bool CanPromote(bool precise, ExprTypeKind k1, ExprTypeKind k2, out ExprTypeKind res)
         {
@@ -1833,7 +1893,6 @@ namespace ExpressionLib
         }
     }
 
-#if false
     internal sealed partial class LambdaBinder : NodeVisitor
     {
         // This partial contains stuff needed for equality and ordered comparison.
@@ -1929,5 +1988,4 @@ namespace ExpressionLib
             null,
         };
     }
-#endif
 }

@@ -132,24 +132,20 @@ namespace ExpressionLib
 	#endif
         public virtual bool PreVisit(UnaryOpNode node) { return true; }
         public virtual bool PreVisit(BinaryOpNode node) { return true; }
-		#if false
         public virtual bool PreVisit(ConditionalNode node) { return true; }
         public virtual bool PreVisit(CompareNode node) { return true; }
         public virtual bool PreVisit(CallNode node) { return true; }
         public virtual bool PreVisit(ListNode node) { return true; }
-	#endif
         public virtual bool PreVisit(WithNode node) { return true; }
         public virtual bool PreVisit(WithLocalNode node) { return true; }
 
         public abstract void PostVisit(LambdaNode node);
         public abstract void PostVisit(UnaryOpNode node);
         public abstract void PostVisit(BinaryOpNode node);
-			#if false
         public abstract void PostVisit(ConditionalNode node);
         public abstract void PostVisit(CompareNode node);
         public abstract void PostVisit(CallNode node);
         public abstract void PostVisit(ListNode node);
-		#endif
         public abstract void PostVisit(WithNode node);
         public abstract void PostVisit(WithLocalNode node);
     }
@@ -162,12 +158,10 @@ namespace ExpressionLib
 	#endif
         public abstract void Visit(UnaryOpNode node);
         public abstract void Visit(BinaryOpNode node);
-		#if false
         public abstract void Visit(ConditionalNode node);
         public abstract void Visit(CompareNode node);
         public abstract void Visit(CallNode node);
         public abstract void Visit(ListNode node);
-	#endif
         public abstract void Visit(WithNode node);
         public abstract void Visit(WithLocalNode node);
 
@@ -176,25 +170,23 @@ namespace ExpressionLib
         public override bool PreVisit(LambdaNode node) { Visit(node); return false; }
 	#endif
         public override bool PreVisit(UnaryOpNode node) { Visit(node); return false; }
-	#if false
+//		#if false
         public override bool PreVisit(BinaryOpNode node) { Visit(node); return false; }
         public override bool PreVisit(ConditionalNode node) { Visit(node); return false; }
+//		#endif
         public override bool PreVisit(CompareNode node) { Visit(node); return false; }
         public override bool PreVisit(CallNode node) { Visit(node); return false; }
         public override bool PreVisit(ListNode node) { Visit(node); return false; }
-	#endif
         public override bool PreVisit(WithNode node) { Visit(node); return false; }
         public override bool PreVisit(WithLocalNode node) { Visit(node); return false; }
 
         public override void PostVisit(LambdaNode node) { Contracts.Assert(false); }
         public override void PostVisit(UnaryOpNode node) { Contracts.Assert(false); }
         public override void PostVisit(BinaryOpNode node) { Contracts.Assert(false); }
-			#if false
         public override void PostVisit(ConditionalNode node) { Contracts.Assert(false); }
         public override void PostVisit(CompareNode node) { Contracts.Assert(false); }
         public override void PostVisit(CallNode node) { Contracts.Assert(false); }
-        public override void PostVisit(ListNode node) { Contracts.Assert(false); }
-		#endif
+	public override void PostVisit(ListNode node) { Contracts.Assert(false); }
         public override void PostVisit(WithNode node) { Contracts.Assert(false); }
         public override void PostVisit(WithLocalNode node) { Contracts.Assert(false); }
     }
@@ -255,22 +247,18 @@ namespace ExpressionLib
         public virtual LambdaNode TestPredicate { get { return null; } }
         public virtual ParamNode AsParam { get { return Cast<ParamNode>(); } }
         public virtual ParamNode TestParam { get { return null; } }
-		    #if false
         public virtual ConditionalNode AsConditional { get { return Cast<ConditionalNode>(); } }
         public virtual ConditionalNode TestConditional { get { return null; } }
-		#endif
         public virtual BinaryOpNode AsBinaryOp { get { return Cast<BinaryOpNode>(); } }
         public virtual BinaryOpNode TestBinaryOp { get { return null; } }
         public virtual UnaryOpNode AsUnaryOp { get { return Cast<UnaryOpNode>(); } }
         public virtual UnaryOpNode TestUnaryOp { get { return null; } }
-	#if false
         public virtual CompareNode AsCompare { get { return Cast<CompareNode>(); } }
         public virtual CompareNode TestCompare { get { return null; } }
         public virtual CallNode AsCall { get { return Cast<CallNode>(); } }
         public virtual CallNode TestCall { get { return null; } }
         public virtual ListNode AsList { get { return Cast<ListNode>(); } }
         public virtual ListNode TestList { get { return null; } }
-	#endif
         public virtual WithNode AsWith { get { return Cast<WithNode>(); } }
         public virtual WithNode TestWith { get { return null; } }
         public virtual WithLocalNode AsWithLocal { get { return Cast<WithLocalNode>(); } }
@@ -1004,7 +992,6 @@ namespace ExpressionLib
         }
     }
 
-#if false
     /// <summary>
     /// Node for the ternary conditional operator.
     /// </summary>
@@ -1211,7 +1198,6 @@ namespace ExpressionLib
             }
         }
     }
-    #endif
 
     /// <summary>
     /// The parse node for a "with" expression. The grammar is:

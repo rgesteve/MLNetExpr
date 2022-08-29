@@ -175,7 +175,6 @@ namespace ExpressionLib
             }
         }
 
-#if false
         private string GetString(TokKind tidCompare)
         {
             switch (tidCompare)
@@ -202,7 +201,6 @@ namespace ExpressionLib
                     return " <bad> ";
             }
         }
-	#endif
 
         private bool TryShowValue(ExprNode node)
         {
@@ -444,7 +442,6 @@ namespace ExpressionLib
             ShowType(node);
         }
 
-#if false
         public override void Visit(ConditionalNode node)
         {
             Contracts.AssertValue(node);
@@ -557,13 +554,10 @@ namespace ExpressionLib
                 node.Items[count - 1].Accept(this);
             }
         }
-#endif
 
         public override void Visit(WithNode node)
         {
-#if false
             Contracts.AssertValue(node);
-#endif
 
             if (TryShowValue(node))
                 return;
