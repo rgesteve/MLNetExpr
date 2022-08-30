@@ -19,7 +19,6 @@ namespace ExpressionLib
     {
         private const uint _defaultSeed = (5381 << 16) + 5381;
 
-#if false
         public static uint CombineHash(uint u1, uint u2)
         {
             return ((u1 << 7) | (u1 >> 25)) ^ u2;
@@ -30,6 +29,7 @@ namespace ExpressionLib
             return (int)CombineHash((uint)n1, (uint)n2);
         }
 
+#if false
         /// <summary>
         /// Creates a combined hash of possibly heterogeneously typed values.
         /// </summary>
@@ -58,6 +58,7 @@ namespace ExpressionLib
                 startHash = CombineHash(startHash, o.GetHashCode());
             return startHash;
         }
+#endif
 
         public static uint HashUint(uint u)
         {
@@ -69,7 +70,6 @@ namespace ExpressionLib
         {
             return (int)HashUint((uint)n);
         }
-#endif
 
         /// <summary>
         /// Hash the characters in a <see cref="ReadOnlySpan{T}"/> of <see cref="char"/>.

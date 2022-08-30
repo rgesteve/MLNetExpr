@@ -22,9 +22,7 @@ namespace ExpressionLib
 
         public TextSpan(int ichMin, int ichLim)
         {
-#if false
             Contracts.Assert(0 <= ichMin && ichMin <= ichLim);
-#endif
             Min = ichMin;
             Lim = ichLim;
         }
@@ -55,9 +53,7 @@ namespace ExpressionLib
         protected Token(TextSpan span, TokKind tid, TokKind tidContext)
         {
             // Currently the only contextual variability is that an identifier might double as a keyword.
-	    #if false
             Contracts.Assert(tidContext == tid || tid == TokKind.Ident);
-	    #endif
             Span = span;
             Kind = tid;
             KindContext = tidContext;
@@ -197,9 +193,7 @@ namespace ExpressionLib
 
         private static bool AllDigits(string s)
         {
-	#if false
             Contracts.AssertNonEmpty(s);
-	    #endif
             for (int i = 0; i < s.Length; i++)
             {
                 if ((uint)(s[i] - '0') > 9)
@@ -236,9 +230,7 @@ namespace ExpressionLib
 
         public static void Write(TextWriter wrt, string str)
         {
-	#if false
             Contracts.AssertValue(str);
-	    #endif
 
             wrt.Write('"');
             int ich = 0;

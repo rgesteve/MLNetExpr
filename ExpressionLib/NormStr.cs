@@ -37,9 +37,7 @@ namespace ExpressionLib
         /// </summary>
         private NormStr(ReadOnlyMemory<char> str, int id, uint hash)
         {
-#if false
             Contracts.Assert(id >= 0 || id == -1 && str.IsEmpty);
-#endif
             Value = str;
             Id = id;
             _hash = hash;
@@ -79,7 +77,6 @@ namespace ExpressionLib
             [Conditional("DEBUG")]
             private void AssertValid()
             {
-	    #if false
                 // Number of buckets must be a power of two.
                 Contracts.AssertValue(_rgins);
                 Contracts.Assert(_rgins.Length == _mask + 1);
@@ -87,7 +84,6 @@ namespace ExpressionLib
 
                 Contracts.Assert(0 <= _cns && _cns <= Utils.Size(_rgns));
                 Contracts.Assert(Utils.Size(_rgns) == Utils.Size(_rgmeta));
-		#endif
             }
 
             private int GetIns(uint hash)
@@ -124,9 +120,7 @@ namespace ExpressionLib
                     }
                     ins = (int)Utils.GetHi(meta);
                 }
-		#if false
                 Contracts.Assert(ins == -1);
-		#endif
 
                 return add ? AddCore(str.AsMemory(), hash) : null;
             }
@@ -149,9 +143,7 @@ namespace ExpressionLib
                     }
                     ins = (int)Utils.GetHi(meta);
                 }
-		#if false
                 Contracts.Assert(ins == -1);
-		#endif
 
                 if (duplicateStr)
                 {
@@ -210,9 +202,7 @@ namespace ExpressionLib
                     }
                     ins = (int)Utils.GetHi(meta);
                 }
-#if false
                 Contracts.Assert(ins == -1);
-#endif
 
                 return add ? AddCore(sb.ToString().AsMemory(), hash) : null;
             }
@@ -230,31 +220,23 @@ namespace ExpressionLib
             /// </summary>
             private NormStr AddCore(ReadOnlyMemory<char> str, uint hash)
             {
-	    #if false
                 Contracts.Assert(str.Length >= 0);
                 Contracts.Assert(Hashing.HashString(str.Span) == hash);
-		#endif
 
                 if (_rgns == null)
                 {
-		#if false
                     Contracts.Assert(_cns == 0);
-		    #endif
                     _rgmeta = new ulong[10];
                     _rgns = new NormStr[10];
                 }
                 else if (_cns >= _rgns.Length)
                 {
-		#if false
                     Contracts.Assert(_cns == _rgns.Length);
-		    #endif
                     int size = checked(_rgns.Length / 2 + _rgns.Length);
                     Array.Resize(ref _rgmeta, size);
                     Array.Resize(ref _rgns, size);
                 }
-		#if false
                 Contracts.Assert(_cns < _rgns.Length);
-		#endif
 
                 NormStr ns = new NormStr(str, _cns, hash);
                 int iins = GetIins(hash);
@@ -271,17 +253,13 @@ namespace ExpressionLib
 
             public NormStr GetNormStrById(int id)
             {
-#if false
                 Contracts.CheckParam(0 <= id && id < _cns, nameof(id));
-#endif
                 return GetNs(id);
             }
                 private NormStr GetNs(int ins)
             {
-	    #if false
                 Contracts.Assert(0 <= ins && ins < _cns);
                 Contracts.Assert(_rgns[ins].Id == ins);
-		#endif
                 return _rgns[ins];
             }
 

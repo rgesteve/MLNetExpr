@@ -60,97 +60,73 @@ namespace ExpressionLib
 
         public static int Size(string x)
         {
-#if false
             Contracts.AssertValueOrNull(x);
-#endif
             return x == null ? 0 : x.Length;
         }
 
         public static int Size(StringBuilder x)
         {
-	#if false
             Contracts.AssertValueOrNull(x);
-	    #endif
             return x == null ? 0 : x.Length;
         }
 
         public static int Size(Array x)
         {
-	#if false
             Contracts.AssertValueOrNull(x);
-	    #endif
             return x == null ? 0 : x.Length;
         }
 
         public static int Size<T>(T[] x)
         {
-	#if false
             Contracts.AssertValueOrNull(x);
-	    #endif
             return x == null ? 0 : x.Length;
         }
 
         public static int Size<T>(List<T> x)
         {
-#if false
             Contracts.AssertValueOrNull(x);
-#endif
             return x == null ? 0 : x.Count;
         }
 
         public static int Size<T>(IList<T> x)
         {
-	#if false
             Contracts.AssertValueOrNull(x);
-	    #endif
             return x == null ? 0 : x.Count;
         }
 
         public static int Size<T>(IReadOnlyList<T> x)
         {
-	#if false
             Contracts.AssertValueOrNull(x);
-	    #endif
             return x == null ? 0 : x.Count;
         }
 
         public static int Size<T>(Stack<T> x)
         {
-	#if false
             Contracts.AssertValueOrNull(x);
-	    #endif
             return x == null ? 0 : x.Count;
         }
 
         public static int Size<T>(HashSet<T> x)
         {
-	#if false
             Contracts.AssertValueOrNull(x);
-	    #endif
             return x == null ? 0 : x.Count;
         }
 
         public static int Size<T>(SortedSet<T> x)
         {
-	#if false
             Contracts.AssertValueOrNull(x);
-	    #endif
             return x == null ? 0 : x.Count;
         }
 
         public static int Size<TKey, TValue>(Dictionary<TKey, TValue> x)
         {
-	#if false
             Contracts.AssertValueOrNull(x);
-	    #endif
             return x == null ? 0 : x.Count;
         }
 
         public static int Size(BitArray x)
         {
-	#if false
             Contracts.AssertValueOrNull(x);
-	    #endif
             return x == null ? 0 : x.Length;
         }
 
@@ -158,9 +134,7 @@ namespace ExpressionLib
 
         public static bool TryGetValue<TKey, TValue>(Dictionary<TKey, TValue> map, TKey key, out TValue value)
         {
-	#if false
             Contracts.AssertValueOrNull(map);
-	    #endif
             if (map == null)
             {
                 value = default(TValue);
@@ -171,9 +145,7 @@ namespace ExpressionLib
 
         public static T[] ToArray<T>(List<T> list)
         {
-	#if false
             Contracts.AssertValueOrNull(list);
-	    #endif
             return list == null ? null : list.ToArray();
         }
 
@@ -181,9 +153,7 @@ namespace ExpressionLib
 
         public static void Add<T>(ref List<T> list, T item)
         {
-	#if false
             Contracts.AssertValueOrNull(list);
-	    #endif
             if (list == null)
                 list = new List<T>();
             list.Add(item);
@@ -191,9 +161,7 @@ namespace ExpressionLib
 
         public static bool Add<T>(ref HashSet<T> set, T item)
         {
-	#if false
             Contracts.AssertValueOrNull(set);
-	    #endif
             if (set == null)
                 set = new HashSet<T>();
             return set.Add(item);
@@ -201,9 +169,7 @@ namespace ExpressionLib
 
         public static void Add<TKey, TValue>(ref Dictionary<TKey, TValue> map, TKey key, TValue value)
         {
-	#if false
             Contracts.AssertValueOrNull(map);
-	    #endif
             if (map == null)
                 map = new Dictionary<TKey, TValue>();
             map.Add(key, value);
@@ -211,9 +177,7 @@ namespace ExpressionLib
 
         public static void Set<TKey, TValue>(ref Dictionary<TKey, TValue> map, TKey key, TValue value)
         {
-	#if false
             Contracts.AssertValueOrNull(map);
-	    #endif
             if (map == null)
                 map = new Dictionary<TKey, TValue>();
             map[key] = value;
@@ -221,9 +185,7 @@ namespace ExpressionLib
 
         public static void Push<T>(ref Stack<T> stack, T item)
         {
-	#if false
             Contracts.AssertValueOrNull(stack);
-	    #endif
             if (stack == null)
                 stack = new Stack<T>();
             stack.Push(item);
@@ -237,11 +199,9 @@ namespace ExpressionLib
         /// </remarks>
         public static void CopyTo<T>(this List<T> src, Span<T> dst, int? count = null)
         {
-	#if false
             Contracts.Assert(src != null);
             Contracts.Assert(!count.HasValue || (0 <= count && count <= src.Count));
             Contracts.Assert(src.Count <= dst.Length);
-	    #endif
 
             count = count ?? src.Count;
             for (int i = 0; i < count; i++)
@@ -258,9 +218,7 @@ namespace ExpressionLib
         /// </summary>
         public static int FindIndexSorted(this IList<int> input, int value)
         {
-	#if false
             Contracts.AssertValue(input);
-	    #endif
             return FindIndexSorted(input, 0, input.Count, value);
         }
 
@@ -272,9 +230,7 @@ namespace ExpressionLib
         /// </summary>
         public static int FindIndexSorted(this IList<float> input, float value)
         {
-	#if false
             Contracts.AssertValue(input);
-	    #endif
             return FindIndexSorted(input, 0, input.Count, value);
         }
 
@@ -286,9 +242,7 @@ namespace ExpressionLib
         /// </summary>
         public static int FindIndexSorted(this Double[] input, Double value)
         {
-	#if false
             Contracts.AssertValue(input);
-	    #endif
             return FindIndexSorted(input, 0, input.Length, value);
         }
 
@@ -343,36 +297,28 @@ namespace ExpressionLib
         /// </summary>
         public static int FindIndexSorted(this IList<int> input, int min, int lim, int value)
         {
-	#if false
             Contracts.AssertValue(input);
             Contracts.Assert(0 <= min && min <= lim && lim <= input.Count);
-	    #endif
 
             int minCur = min;
             int limCur = lim;
             while (minCur < limCur)
             {
                 int mid = (int)(((uint)minCur + (uint)limCur) / 2);
-		#if false
                 Contracts.Assert(minCur <= mid && mid < limCur);
-		#endif
 
                 if (input[mid] >= value)
                     limCur = mid;
                 else
                     minCur = mid + 1;
 
-#if false
                 Contracts.Assert(min <= minCur && minCur <= limCur && limCur <= lim);
                 Contracts.Assert(minCur == min || input[minCur - 1] < value);
                 Contracts.Assert(limCur == lim || input[limCur] >= value);
-		#endif
             }
-	    #if false
             Contracts.Assert(min <= minCur && minCur == limCur && limCur <= lim);
             Contracts.Assert(minCur == min || input[minCur - 1] < value);
             Contracts.Assert(limCur == lim || input[limCur] >= value);
-	    #endif
 
             return minCur;
         }
@@ -385,38 +331,30 @@ namespace ExpressionLib
         /// </summary>
         public static int FindIndexSorted(this IList<float> input, int min, int lim, float value)
         {
-	#if false
             Contracts.AssertValue(input);
             Contracts.Assert(0 <= min && min <= lim && lim <= input.Count);
             Contracts.Assert(!float.IsNaN(value));
-	    #endif
 
             int minCur = min;
             int limCur = lim;
             while (minCur < limCur)
             {
                 int mid = (int)(((uint)minCur + (uint)limCur) / 2);
-		#if false
                 Contracts.Assert(minCur <= mid && mid < limCur);
                 Contracts.Assert(!float.IsNaN(input[mid]));
-		#endif
 
                 if (input[mid] >= value)
                     limCur = mid;
                 else
                     minCur = mid + 1;
 
-#if false
                 Contracts.Assert(min <= minCur && minCur <= limCur && limCur <= lim);
                 Contracts.Assert(minCur == min || input[minCur - 1] < value);
                 Contracts.Assert(limCur == lim || input[limCur] >= value);
-		#endif
             }
-	    #if false
             Contracts.Assert(min <= minCur && minCur == limCur && limCur <= lim);
             Contracts.Assert(minCur == min || input[minCur - 1] < value);
             Contracts.Assert(limCur == lim || input[limCur] >= value);
-	    #endif
 
             return minCur;
         }
@@ -429,38 +367,30 @@ namespace ExpressionLib
         /// </summary>
         public static int FindIndexSorted(this Double[] input, int min, int lim, Double value)
         {
-	#if false
             Contracts.AssertValue(input);
             Contracts.Assert(0 <= min && min <= lim && lim <= input.Length);
             Contracts.Assert(!Double.IsNaN(value));
-	    #endif
 
             int minCur = min;
             int limCur = lim;
             while (minCur < limCur)
             {
                 int mid = (int)(((uint)minCur + (uint)limCur) / 2);
-		#if false
                 Contracts.Assert(minCur <= mid && mid < limCur);
                 Contracts.Assert(!Double.IsNaN(input[mid]));
-		#endif
 
                 if (input[mid] >= value)
                     limCur = mid;
                 else
                     minCur = mid + 1;
 
-#if false
                 Contracts.Assert(min <= minCur && minCur <= limCur && limCur <= lim);
                 Contracts.Assert(minCur == min || input[minCur - 1] < value);
                 Contracts.Assert(limCur == lim || input[limCur] >= value);
-		#endif
             }
-	    #if false
             Contracts.Assert(min <= minCur && minCur == limCur && limCur <= lim);
             Contracts.Assert(minCur == min || input[minCur - 1] < value);
             Contracts.Assert(limCur == lim || input[limCur] >= value);
-	    #endif
 
             return minCur;
         }
@@ -472,36 +402,28 @@ namespace ExpressionLib
         /// </summary>
         public static int FindIndexSorted<T>(this T[] input, int min, int lim, Func<T, bool> func)
         {
-	#if false
             Contracts.AssertValue(input);
             Contracts.Assert(0 <= min && min <= lim && lim <= input.Length);
-	    #endif
 
             int minCur = min;
             int limCur = lim;
             while (minCur < limCur)
             {
                 int mid = (int)(((uint)minCur + (uint)limCur) / 2);
-		#if false
                 Contracts.Assert(minCur <= mid && mid < limCur);
-		#endif
 
                 if (func(input[mid]))
                     limCur = mid;
                 else
                     minCur = mid + 1;
 
-#if false
                 Contracts.Assert(min <= minCur && minCur <= limCur && limCur <= lim);
                 Contracts.Assert(minCur == min || !func(input[minCur - 1]));
                 Contracts.Assert(limCur == lim || func(input[limCur]));
-		#endif
             }
-	    #if false
             Contracts.Assert(min <= minCur && minCur == limCur && limCur <= lim);
             Contracts.Assert(minCur == min || !func(input[minCur - 1]));
             Contracts.Assert(limCur == lim || func(input[limCur]));
-	    #endif
 
             return minCur;
         }
@@ -513,45 +435,35 @@ namespace ExpressionLib
         /// </summary>
         public static int FindIndexSorted<T, TValue>(this T[] input, int min, int lim, Func<T, TValue, bool> func, TValue value)
         {
-	#if false
             Contracts.AssertValue(input);
             Contracts.Assert(0 <= min && min <= lim && lim <= input.Length);
-	    #endif
 
             int minCur = min;
             int limCur = lim;
             while (minCur < limCur)
             {
                 int mid = (int)(((uint)minCur + (uint)limCur) / 2);
-		#if false
                 Contracts.Assert(minCur <= mid && mid < limCur);
-		#endif
 
                 if (func(input[mid], value))
                     limCur = mid;
                 else
                     minCur = mid + 1;
 
-#if false
                 Contracts.Assert(min <= minCur && minCur <= limCur && limCur <= lim);
                 Contracts.Assert(minCur == min || !func(input[minCur - 1], value));
                 Contracts.Assert(limCur == lim || func(input[limCur], value));
-		#endif
             }
-	    #if false
             Contracts.Assert(min <= minCur && minCur == limCur && limCur <= lim);
             Contracts.Assert(minCur == min || !func(input[minCur - 1], value));
             Contracts.Assert(limCur == lim || func(input[limCur], value));
-	    #endif
 
             return minCur;
         }
 
         public static int[] GetIdentityPermutation(int size)
         {
-	#if false
             Contracts.Assert(size >= 0);
-	    #endif
 
             var res = new int[size];
             for (int i = 0; i < size; i++)
@@ -561,9 +473,7 @@ namespace ExpressionLib
 
         public static void FillIdentity(Span<int> a, int lim)
         {
-	#if false
             Contracts.Assert(0 <= lim && lim <= a.Length);
-	    #endif
 
             for (int i = 0; i < lim; ++i)
                 a[i] = i;
@@ -588,18 +498,14 @@ namespace ExpressionLib
 
         public static int[] InvertPermutation(int[] perm)
         {
-	#if false
             Contracts.AssertValue(perm);
-	    #endif
 
             var res = new int[perm.Length];
             for (int i = 0; i < perm.Length; i++)
             {
                 int j = perm[i];
-		#if false
                 Contracts.Assert(0 <= j && j < perm.Length);
                 Contracts.Assert(res[j] == 0 && (j != perm[0] || i == 0));
-		#endif
                 res[j] = i;
             }
             return res;
@@ -607,10 +513,8 @@ namespace ExpressionLib
 	
         public static int[] GetRandomPermutation(Random rand, int size)
         {
-	#if false
             Contracts.AssertValue(rand);
             Contracts.Assert(size >= 0);
-	    #endif
 
             var res = GetIdentityPermutation(size);
             Shuffle<int>(rand, res);
@@ -653,9 +557,7 @@ namespace ExpressionLib
 
         public static void Shuffle<T>(Random rand, Span<T> rgv)
         {
-	#if false
             Contracts.AssertValue(rand);
-	    #endif
 
             for (int iv = 0; iv < rgv.Length; iv++)
                 Swap(ref rgv[iv], ref rgv[iv + rand.Next(rgv.Length - iv)]);
@@ -808,9 +710,7 @@ namespace ExpressionLib
         /// </summary>
         public static bool IsIncreasing(int min, ReadOnlySpan<int> values, int len, int lim)
         {
-	#if false
             Contracts.Check(values.Length >= len);
-	    #endif
             if (len < 1)
                 return true;
 
@@ -831,9 +731,7 @@ namespace ExpressionLib
         /// </summary>
         public static T[] CreateArray<T>(int length, T value)
         {
-	#if false
             Contracts.Assert(length >= 0, "Length can't be negative");
-	    #endif
             var result = new T[length];
             for (int i = 0; i < length; i++)
                 result[i] = value;
@@ -842,9 +740,7 @@ namespace ExpressionLib
 
         public static bool[] BuildArray(int length, IEnumerable<DataViewSchema.Column> columnsNeeded)
         {
-	#if false
             Contracts.CheckParam(length >= 0, nameof(length));
-	    #endif
 
             var result = new bool[length];
             foreach (var col in columnsNeeded)
@@ -858,10 +754,8 @@ namespace ExpressionLib
 
         public static T[] BuildArray<T>(int length, Func<int, T> func)
         {
-	#if false
             Contracts.CheckParam(length >= 0, nameof(length));
             Contracts.CheckValue(func, nameof(func));
-	    #endif
 
             var result = new T[length];
             for (int i = 0; i < result.Length; i++)
@@ -885,11 +779,9 @@ namespace ExpressionLib
         /// <c><paramref name="invMap"/>[i] == -1</c></param>
         public static void BuildSubsetMaps(DataViewSchema schema, Func<DataViewSchema.Column, bool> pred, out int[] map, out int[] invMap)
         {
-	#if false
             Contracts.CheckValue(schema, nameof(schema));
             Contracts.Check(schema.Count > 0, nameof(schema));
             Contracts.CheckValue(pred, nameof(pred));
-	    #endif
             // REVIEW: Better names?
             List<int> mapList = new List<int>();
             invMap = new int[schema.Count];
@@ -922,10 +814,8 @@ namespace ExpressionLib
         /// <c><paramref name="invMap"/>[i] == -1</c></param>
         public static void BuildSubsetMaps(int lim, Func<int, bool> pred, out int[] map, out int[] invMap)
         {
-	#if false
             Contracts.CheckParam(lim >= 0, nameof(lim));
             Contracts.CheckValue(pred, nameof(pred));
-	    #endif
             // REVIEW: Better names?
             List<int> mapList = new List<int>();
             invMap = new int[lim];
@@ -959,10 +849,8 @@ namespace ExpressionLib
         /// <c><paramref name="invMap"/>[i] == -1</c></param>
         public static void BuildSubsetMaps(int lim, IEnumerable<DataViewSchema.Column> columnsNeeded, out int[] map, out int[] invMap)
         {
-	#if false
             Contracts.CheckParam(lim >= 0, nameof(lim));
             Contracts.CheckValue(columnsNeeded, nameof(columnsNeeded));
-	    #endif
 
             // REVIEW: Better names?
             List<int> mapList = new List<int>();
@@ -970,9 +858,7 @@ namespace ExpressionLib
 
             foreach (var col in columnsNeeded)
             {
-	    #if false
                 Contracts.Check(col.Index < lim);
-		#endif
                 invMap[col.Index] = mapList.Count;
                 mapList.Add(col.Index);
             }
@@ -1014,10 +900,8 @@ namespace ExpressionLib
                 if (ne == null && size > 0)
                     ne = a;
             }
-	    #if false
             Contracts.Assert(nn != null || size == 0);
             Contracts.Assert((ne == null) == (size == 0));
-	    #endif
 
             // If the size is zero, return the first non-null.
             if (size == 0)
@@ -1036,9 +920,7 @@ namespace ExpressionLib
                 Array.Copy(a, 0, res, ivDst, cv);
                 ivDst += cv;
             }
-	    #if false
             Contracts.Assert(ivDst == size);
-	    #endif
             return res;
         }
 	
@@ -1079,9 +961,7 @@ namespace ExpressionLib
         /// </summary>
         public static int GetCardinality(BitArray bitArray)
         {
-	#if false
             Contracts.CheckValue(bitArray, nameof(bitArray));
-	    #endif
             int cnt = 0;
             foreach (bool b in bitArray)
             {
@@ -1096,11 +976,7 @@ namespace ExpressionLib
         {
             var meth = MarshalActionInvokeCheckAndCreate(genArg, func);
             if (meth.ReturnType != typeof(TRet))
-	    #if false
                 throw Contracts.ExceptParam(nameof(func), "Cannot be generic on return type");
-		#else
-		throw null;
-		#endif
             return meth;
         }
 

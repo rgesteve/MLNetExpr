@@ -172,9 +172,7 @@ namespace ExpressionLib
                     return "Unicode escapes not permitted in preprocessor directives";
 
                 default:
-		#if false
                     Contracts.Assert(false, "Unknown error id: " + eid);
-		    #endif
                     return "Unknown error";
             }
         }
@@ -184,9 +182,7 @@ namespace ExpressionLib
         {
             int carg;
             string fmt = eid.GetMsgFmt(out carg);
-#if false
             Contracts.Assert(carg == Utils.Size(args));
-#endif
             if (carg == 0)
                 return fmt;
             string msg = string.Format(fmt, args);

@@ -101,7 +101,6 @@ namespace ExpressionLib
         // The mapping from character to CharInfo for characters less than 128.
         private static readonly LexCharInfo[] _rgchi;
 
-    #if false
         static LexCharUtils()
         {
             // Init the array of CharInfo's.
@@ -153,7 +152,6 @@ namespace ExpressionLib
             foreach (char ch in "!%&()*+,-:;<=>?[]^{|}~")
                 _rgchi[ch] = info;
         }
-#endif
 
         private static UniCatFlags GetCatFlags(char ch)
         {
@@ -190,14 +188,14 @@ namespace ExpressionLib
         {
             return ch < _rgchi.Length && _rgchi[ch].Is(LexCharKind.HexDigit);
         }
-#if false
+
         public static bool IsIdentStart(char ch)
         {
             if (ch < _rgchi.Length)
                 return _rgchi[ch].Is(LexCharKind.Ident) && !_rgchi[ch].Is(LexCharKind.Digit);
             return (GetCatFlags(ch) & UniCatFlags.IdentPartChar) != 0;
         }
-#endif
+
         public static bool IsIdent(char ch)
         {
             if (ch < _rgchi.Length)
@@ -224,34 +222,24 @@ namespace ExpressionLib
 
         public static int GetDecVal(char ch)
         {
-#if false
             Contracts.Assert('0' <= ch && ch <= '9');
-#endif
             return ch - '0';
         }
 
         public static int GetHexVal(char ch)
         {
-#if false
             Contracts.Assert(IsHexDigit(ch));
-#endif
             if (ch >= 'a')
             {
-#if false
                 Contracts.Assert(ch <= 'f');
-#endif
                 return ch - ('a' - 10);
             }
             if (ch >= 'A')
             {
-#if false
                 Contracts.Assert(ch <= 'F');
-#endif
                 return ch - ('A' - 10);
             }
-#if false
             Contracts.Assert('0' <= ch && ch <= '9');
-#endif
             return ch - '0';
         }
 

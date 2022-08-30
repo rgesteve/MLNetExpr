@@ -18,10 +18,8 @@ namespace ExpressionLib
 
         public Error(Token tok, string msg)
         {
-	#if false
             Contracts.AssertValue(tok);
             Contracts.AssertNonEmpty(msg);
-	    #endif
             Token = tok;
             Message = msg;
             Args = null;
@@ -29,11 +27,9 @@ namespace ExpressionLib
 
         public Error(Token tok, string msg, params object[] args)
         {
-	#if false
             Contracts.AssertValue(tok);
             Contracts.AssertNonEmpty(msg);
             Contracts.AssertValue(args);
-	    #endif
             Token = tok;
             Message = msg;
             Args = args;

@@ -125,11 +125,9 @@ namespace ExpressionLib
         public abstract void Visit(IdentNode node);
         public abstract void Visit(ParamNode node);
 
-#if false
         // Visit methods for non-leaf node types.
         // If PreVisit returns true, the children are visited and PostVisit is called.
         public virtual bool PreVisit(LambdaNode node) { return true; }
-	#endif
         public virtual bool PreVisit(UnaryOpNode node) { return true; }
         public virtual bool PreVisit(BinaryOpNode node) { return true; }
         public virtual bool PreVisit(ConditionalNode node) { return true; }
@@ -152,10 +150,8 @@ namespace ExpressionLib
 
     internal abstract class PreVisitor : NodeVisitor
     {
-    #if false
         // Visit methods for non-leaf node types.
         public abstract void Visit(LambdaNode node);
-	#endif
         public abstract void Visit(UnaryOpNode node);
         public abstract void Visit(BinaryOpNode node);
         public abstract void Visit(ConditionalNode node);
@@ -165,15 +161,11 @@ namespace ExpressionLib
         public abstract void Visit(WithNode node);
         public abstract void Visit(WithLocalNode node);
 
-#if false
         // PreVisit and PostVisit methods for non-leaf node types.
         public override bool PreVisit(LambdaNode node) { Visit(node); return false; }
-	#endif
         public override bool PreVisit(UnaryOpNode node) { Visit(node); return false; }
-//		#if false
         public override bool PreVisit(BinaryOpNode node) { Visit(node); return false; }
         public override bool PreVisit(ConditionalNode node) { Visit(node); return false; }
-//		#endif
         public override bool PreVisit(CompareNode node) { Visit(node); return false; }
         public override bool PreVisit(CallNode node) { Visit(node); return false; }
         public override bool PreVisit(ListNode node) { Visit(node); return false; }
@@ -195,20 +187,14 @@ namespace ExpressionLib
     {
         // This just provides default implementations for non-expr related node types.
         public override void Visit(NameNode node) {
-	#if false
 	Contracts.Assert(false);
-	    #endif
 	}
         public override void Visit(ParamNode node) {
-	#if false
 	Contracts.Assert(false);
-	    #endif
 	}
 
         public override void PostVisit(LambdaNode node) {
-	#if false
 	Contracts.Assert(false);
-	    #endif
 	}
     }
 
@@ -220,9 +206,7 @@ namespace ExpressionLib
 
         protected Node(Token tok)
         {
-	    #if false
             Contracts.AssertValue(tok);
-	    #endif
             Token = tok;
         }
 
@@ -233,9 +217,7 @@ namespace ExpressionLib
 
         private T Cast<T>() where T : Node
         {
-	    #if false
             Contracts.Assert(false);
-	    #endif
             return (T)this;
         }
 
@@ -305,9 +287,7 @@ namespace ExpressionLib
 
         private bool IsSimple(ExprTypeKind kind)
         {
-	#if false
             Contracts.Assert(ExprType != 0);
-	    #endif
             return ExprType == kind;
         }
 
@@ -343,9 +323,7 @@ namespace ExpressionLib
                 {
                     ExprTypeKind kind;
                     bool tmp = LambdaBinder.CanPromote(false, SrcKind, ExprType, out kind);
-		    #if false
                     Contracts.Assert(tmp && kind == ExprType);
-		    #endif
                 }
 #endif
                 return SrcKind != ExprType;
@@ -354,25 +332,21 @@ namespace ExpressionLib
 
         public void SetType(ExprTypeKind kind)
         {
-	#if false
             Contracts.Assert(kind != 0);
             Contracts.Assert(ExprValue == null);
             Contracts.Assert(ExprType == 0 || ExprType == kind);
             Contracts.Assert(SrcKind == ExprType);
-	    #endif
             ExprType = kind;
             SrcKind = kind;
         }
 
         public void SetType(ExprTypeKind kind, object value)
         {
-	#if false
             Contracts.Assert(kind != 0);
             Contracts.Assert(value == null || value.GetType() == ToSysType(kind));
             Contracts.Assert(ExprValue == null);
             Contracts.Assert(ExprType == 0 || ExprType == kind);
             Contracts.Assert(SrcKind == ExprType);
-	    #endif
             ExprType = kind;
             SrcKind = kind;
             ExprValue = value;
@@ -418,10 +392,8 @@ namespace ExpressionLib
 
         public void SetValue(ExprNode expr)
         {
-	#if false
             Contracts.AssertValue(expr);
             Contracts.Assert(expr.ExprType != 0);
-	    #endif
             SetType(expr.ExprType);
             ExprValue = expr.ExprValue;
         }
@@ -500,68 +472,49 @@ namespace ExpressionLib
 
         public void Convert(ExprTypeKind kind)
         {
-	#if false
             Contracts.Assert(HasType);
-	    #endif
 
             if (kind == ExprType)
                 return;
 
-#if false
             Contracts.Assert(SrcKind == ExprType);
-	    #endif
+
             switch (kind)
             {
                 case ExprTypeKind.I8:
-		    #if false
                     Contracts.Assert(ExprType == ExprTypeKind.I4);
-		    #endif
                     if (ExprValue != null)
                     {
-    			#if false
                         Contracts.Assert(ExprValue is I4);
-			#endif
                         ExprValue = (I8)(I4)ExprValue;
                     }
                     break;
                 case ExprTypeKind.R4:
-		    #if false
                     Contracts.Assert(ExprType == ExprTypeKind.I4);
-		    #endif
                     if (ExprValue != null)
                     {
-			#if false
                         Contracts.Assert(ExprValue is I4);
-			#endif
                         ExprValue = (R4)(I4)ExprValue;
                     }
                     break;
                 case ExprTypeKind.R8:
-#if false
                     Contracts.Assert(ExprType == ExprTypeKind.I4 || ExprType == ExprTypeKind.I8 ||
                         ExprType == ExprTypeKind.R4);
-#endif
                     if (ExprValue != null)
                     {
                         if (ExprType == ExprTypeKind.I4)
                         {
-			#if false
                             Contracts.Assert(ExprValue is I4);
-			    #endif
                             ExprValue = (R8)(I4)ExprValue;
                         }
                         else if (ExprType == ExprTypeKind.I8)
                         {
-			#if false
                             Contracts.Assert(ExprValue is I8);
-			    #endif
                             ExprValue = (R8)(I8)ExprValue;
                         }
                         else
                         {
-			#if false
                             Contracts.Assert(ExprValue is R4);
-			    #endif
                             ExprValue = (R8)(R4)ExprValue;
                         }
                     }
@@ -666,10 +619,8 @@ namespace ExpressionLib
         public LambdaNode(Token tok, ParamNode[] vars, ExprNode expr)
             : base(tok)
         {
-	#if false
             Contracts.AssertNonEmpty(vars);
             Contracts.AssertValue(expr);
-	    #endif
             Vars = vars;
             Expr = expr;
         }
@@ -680,7 +631,6 @@ namespace ExpressionLib
 
         public override void Accept(NodeVisitor visitor)
         {
-	#if false
             Contracts.AssertValue(visitor);
             if (visitor.PreVisit(this))
             {
@@ -689,7 +639,6 @@ namespace ExpressionLib
                 Expr.Accept(visitor);
                 visitor.PostVisit(this);
             }
-	    #endif
         }
 
         public ParamNode FindParam(string name)
@@ -713,11 +662,9 @@ namespace ExpressionLib
         public ParamNode(Token tok, string name, int index, DataViewType type)
             : base(tok)
         {
-		#if false
             Contracts.AssertNonEmpty(name);
             Contracts.Assert(index >= 0);
             Contracts.AssertValueOrNull(type);
-	    #endif
             Name = name;
             Index = index;
             Type = type;
@@ -744,9 +691,7 @@ namespace ExpressionLib
 
         public override void Accept(NodeVisitor visitor)
         {
-	#if false
             Contracts.AssertValue(visitor);
-	    #endif
             visitor.Visit(this);
         }
     }
@@ -760,9 +705,7 @@ namespace ExpressionLib
         public NameNode(IdentToken tok)
             : base(tok)
         {
-	#if false
             Contracts.AssertNonEmpty(tok.Value);
-	    #endif
             Value = tok.Value;
         }
 
@@ -772,9 +715,7 @@ namespace ExpressionLib
 
         public override void Accept(NodeVisitor visitor)
         {
-	#if false
             Contracts.AssertValue(visitor);
-	    	#endif
             visitor.Visit(this);
         }
     }
@@ -791,18 +732,14 @@ namespace ExpressionLib
         public IdentNode(IdentToken tok)
             : base(tok)
         {
-	#if false
             Contracts.AssertNonEmpty(tok.Value);
-	    #endif
             Value = tok.Value;
         }
 
         public IdentNode(Token tok, string value, bool missing = false)
             : base(tok)
         {
-	#if false
             Contracts.AssertNonEmpty(value);
-	    		#endif
             Value = value;
             IsMissing = missing;
         }
@@ -813,9 +750,7 @@ namespace ExpressionLib
 
         public override void Accept(NodeVisitor visitor)
         {
-	#if false
             Contracts.AssertValue(visitor);
-	    	#endif
             visitor.Visit(this);
         }
     }
@@ -1217,10 +1152,8 @@ namespace ExpressionLib
         public WithNode(Token tok, WithLocalNode local, ExprNode body)
             : base(tok)
         {
-	#if false
             Contracts.AssertValue(local);
             Contracts.AssertValue(body);
-	    #endif
             Local = local;
             Body = body;
         }
@@ -1262,10 +1195,8 @@ namespace ExpressionLib
         public WithLocalNode(Token tok, string name, ExprNode value)
             : base(tok)
         {
-	#if false
             Contracts.AssertValue(name);
             Contracts.AssertValue(value);
-	    #endif
             Name = name;
             Value = value;
             Index = -1;

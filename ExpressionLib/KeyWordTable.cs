@@ -33,9 +33,7 @@ namespace ExpressionLib
 
         public KeyWordTable(NormStr.Pool pool)
         {
-	#if false
             Contracts.AssertValue(pool);
-	    #endif
 
             _pool = pool;
             _mpnstrtidWord = new Dictionary<NormStr, KeyWordKind>();
@@ -45,17 +43,13 @@ namespace ExpressionLib
 
         public void AddKeyWord(string str, TokKind tid)
         {
-	    #if false
             Contracts.AssertNonEmpty(str);
-	    #endif
             _mpnstrtidWord.Add(_pool.Add(str), new KeyWordKind(tid, false));
         }
 
         public bool TryAddPunctuator(string str, TokKind tid)
         {
-	    #if false
             Contracts.AssertNonEmpty(str);
-	    #endif
 
             // Note: this assumes that once a prefix is found, that all shorter
             // prefixes are mapped to something (TokKind.None to indicate that
@@ -88,29 +82,21 @@ namespace ExpressionLib
 
         public void AddPunctuator(string str, TokKind tid)
         {
-	#if false
             Contracts.AssertNonEmpty(str);
-	    #endif
             if (!TryAddPunctuator(str, tid)) {
-	    #if false
                 Contracts.Assert(false, "duplicate punctuator!");
-		#endif
 		}
         }
 
         public bool IsKeyWord(NormStr nstr, out KeyWordKind kind)
         {
-	#if false
             Contracts.Assert(!nstr.Value.IsEmpty);
-	    #endif
             return _mpnstrtidWord.TryGetValue(nstr, out kind);
         }
 
         public bool IsPunctuator(NormStr nstr, out TokKind tid)
         {
-	#if false
             Contracts.Assert(!nstr.Value.IsEmpty);
-	    #endif
             return _mpnstrtidPunc.TryGetValue(nstr, out tid);
         }
 

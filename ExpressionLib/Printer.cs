@@ -27,9 +27,7 @@ namespace ExpressionLib
 
         private NodePrinter(IndentedTextWriter wrt, bool showTypes, bool showValues)
         {
-	#if false
             Contracts.AssertValue(wrt);
-	    #endif
 
             _showTypes = showTypes;
             _showValues = showValues;
@@ -39,13 +37,11 @@ namespace ExpressionLib
         // Public entry point for prettyprinting TEXL parse trees
         public static void Print(Node node, TextWriter writer, bool showTypes = false, bool showValues = false)
         {
-	#if false
             Contracts.AssertValue(node);
 
             var wrt = new IndentedTextWriter(writer, "  ");
             NodePrinter printer = new NodePrinter(wrt, showTypes, showValues);
             node.Accept(printer);
-	    #endif
         }
 
         private bool NeedParensLeft(Precedence precLeft, Precedence precOp)
@@ -242,9 +238,7 @@ namespace ExpressionLib
                     Show((TX)value);
                     break;
                 default:
-		#if false
                     Contracts.Assert(false, "Unknown type");
-		    #endif
                     break;
             }
         }
@@ -365,14 +359,11 @@ namespace ExpressionLib
 
         public override void Visit(ParamNode node)
         {
-#if false
             Contracts.AssertValue(node);
-#endif
             _wrt.Write(node.Name);
             ShowType(node);
         }
 
-#if false
         public override void Visit(LambdaNode node)
         {
             Contracts.AssertValue(node);
@@ -393,7 +384,6 @@ namespace ExpressionLib
             _wrt.Write(" => ");
             node.Expr.Accept(this);
         }
-#endif
 
         public override void Visit(UnaryOpNode node)
         {
@@ -573,9 +563,7 @@ namespace ExpressionLib
 
         public override void Visit(WithLocalNode node)
         {
-#if false
             Contracts.AssertValue(node);
-#endif
 
             _wrt.Write(node.Name);
             _wrt.Write(" = ");

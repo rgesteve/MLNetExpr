@@ -25,12 +25,10 @@ namespace ExpressionLib
 
         public char ChCur { get; private set; }
 
-#if false
         public CharCursor(string text)
             : this(Contracts.CheckRef(text, nameof(text)).ToCharArray(), text.Length)
         {
         }
-#endif
 
         public CharCursor(string text, int ichMin, int ichLim)
             : this(text.ToCharArray(ichMin, ichLim - ichMin), ichLim - ichMin)
@@ -39,10 +37,8 @@ namespace ExpressionLib
 
         private CharCursor(char[] buffer, int ichLimInit)
         {
-	#if false
             Contracts.AssertValue(buffer);
             Contracts.Assert(0 <= ichLimInit && ichLimInit <= buffer.Length);
-	    #endif
 
             _buffer = buffer;
             _ichBase = 0;
@@ -61,15 +57,11 @@ namespace ExpressionLib
 
             if (_ichNext < _ichLim || EnsureMore())
             {
-	    #if false
                 Contracts.Assert(_ichNext < _ichLim);
-		#endif
                 return ChCur = _buffer[_ichNext++];
             }
 
-#if false
             Contracts.Assert(_fNoMore);
-	    #endif
             Eof = true;
             _ichNext++; // This is so the final IchCur is reported correctly.
             return ChCur = '\x00';
@@ -78,9 +70,7 @@ namespace ExpressionLib
         public char ChPeek(int dich)
         {
             // If someone is peeking at ich, they should have peeked everything up to ich.
-	    #if false
             Contracts.Assert(0 < dich && dich <= _ichLim - _ichNext + 1);
-	    #endif
 
             int ich = dich + _ichNext - 1;
             if (ich < _ichLim)
@@ -88,15 +78,11 @@ namespace ExpressionLib
             if (EnsureMore())
             {
                 ich = dich + _ichNext - 1;
-		#if false
                 Contracts.Assert(ich < _ichLim);
-		#endif
                 return _buffer[ich];
             }
 
-#if false
             Contracts.Assert(_fNoMore);
-#endif
             return '\x00';
         }
 
@@ -118,9 +104,7 @@ namespace ExpressionLib
 
             int ichLim = _ichLim;
 
-#if false
             Contracts.Assert(ichLim == _ichLim);
-#endif
             _fNoMore = true;
             return false;
         }

@@ -37,10 +37,8 @@ namespace ExpressionLib
 
             public SourcePos(List<int> lineMap, TextSpan span, int lineMin = 1)
             {
-	    #if false
                 Contracts.AssertValue(lineMap);
                 Contracts.Assert(span.Min <= span.Lim);
-		#endif
 
                 IchMin = span.Min;
                 IchLim = span.Lim;
@@ -68,9 +66,7 @@ namespace ExpressionLib
                 else
                 {
                     index = FindIndex(lineMap, IchLim, index);
-		    #if false
                     Contracts.Assert(index > 0);
-		    #endif
                     ichBase = lineMap[index - 1];
                     LineLim = index + lineMin;
                     ColumnLim = IchLim - ichBase + 1;
@@ -79,9 +75,7 @@ namespace ExpressionLib
 
             private static int FindIndex(List<int> map, int value, int ivMin)
             {
-#if false
                 Contracts.Assert(ivMin <= map.Count);
-#endif
                 int ivLim = map.Count;
                 while (ivMin < ivLim)
                 {
@@ -91,11 +85,9 @@ namespace ExpressionLib
                     else
                         ivLim = iv;
                 }
-		#if false
                 Contracts.Assert(0 <= ivMin && ivMin <= map.Count);
                 Contracts.Assert(ivMin == map.Count || value < map[ivMin]);
                 Contracts.Assert(ivMin == 0 || value >= map[ivMin - 1]);
-		#endif
                 return ivMin;
             }
 
@@ -174,13 +166,14 @@ namespace ExpressionLib
 
 #if false
         public static LambdaNode Parse(out List<Error> errors, out List<int> lineMap, CharCursor chars, int[] perm, params DataViewType[] types)
+#else
+	internal static LambdaNode Parse(out List<Error> errors, out List<int> lineMap, CharCursor chars, int[] perm, params DataViewType[] types)
+#endif
         {
-	#if false
             Contracts.AssertValue(chars);
             Contracts.AssertNonEmpty(types);
             Contracts.Assert(types.Length <= LambdaCompiler.MaxParams);
             Contracts.Assert(Utils.Size(perm) == types.Length);
-	    #endif
 
             LambdaParser psr = new LambdaParser();
             return psr.ParseCore(out errors, out lineMap, chars, perm, types);
@@ -188,11 +181,9 @@ namespace ExpressionLib
 
         private LambdaNode ParseCore(out List<Error> errors, out List<int> lineMap, CharCursor chars, int[] perm, DataViewType[] types)
         {
-	#if false
             Contracts.AssertValue(chars);
             Contracts.AssertNonEmpty(types);
             Contracts.Assert(Utils.Size(perm) == types.Length);
-	    #endif
 
             _errors = null;
             _lineMap = new List<int>();
@@ -216,7 +207,6 @@ namespace ExpressionLib
 
             return node;
         }
-	#endif
 
         private void AddError(Error err)
         {

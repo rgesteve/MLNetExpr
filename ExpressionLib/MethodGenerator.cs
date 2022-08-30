@@ -12,7 +12,6 @@ using Microsoft.ML.Runtime;
 
 namespace ExpressionLib
 {
-#if false
     /// <summary>
     /// MethodGenerator is used to build a method by specifying the IL.
     /// </summary>
@@ -22,6 +21,7 @@ namespace ExpressionLib
 
         public ILGenerator Il { get; private set; }
 
+    #if false
         public MethodGenerator(string name, Type thisType, Type returnType, params Type[] parameterTypes)
         {
             Contracts.CheckNonEmpty(name, nameof(name));
@@ -46,17 +46,21 @@ namespace ExpressionLib
             Dispose();
             return del;
         }
+	#endif
 
         /// <summary>
         /// This is idempotent (calling multiple times has the same affect as calling once).
         /// </summary>
         public void Dispose()
         {
+	#if false
             _method = null;
             Il = null;
             _locals = null;
+	    #endif
         }
 
+#if false
         /// <summary>
         /// Represents a temporary local. A MethodGenerator maintains a cache of temporary locals.
         /// Clients can 'check-out' temporaries from the cache, use them, then release (Dispose) when
@@ -98,6 +102,7 @@ namespace ExpressionLib
                 _dispose = null;
             }
         }
+	#endif
 
         private struct LocalKey : IEquatable<LocalKey>
         {
@@ -140,6 +145,7 @@ namespace ExpressionLib
         }
 
         private Dictionary<LocalKey, List<LocalBuilder>> _locals;
+	#if false
         private Action<LocalBuilder, bool> _tempDisposer;
 
         public Temporary AcquireTemporary(Type type, bool isRef = false)
@@ -184,6 +190,6 @@ namespace ExpressionLib
             _locals.Add(key, locals);
             locals.Add(localBuilder);
         }
+	#endif
     }
-#endif
 }

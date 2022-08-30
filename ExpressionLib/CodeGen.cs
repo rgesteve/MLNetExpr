@@ -13,7 +13,6 @@ using Microsoft.ML.Runtime;
 
 namespace ExpressionLib
 {
-#if false
     using BL = System.Boolean;
     using I4 = System.Int32;
     using I8 = System.Int64;
@@ -29,6 +28,7 @@ namespace ExpressionLib
         private readonly Type _delType;
         private readonly MethodGenerator _meth;
 
+#if false
         public static Delegate Compile(out List<Error> errors, LambdaNode node)
         {
             Contracts.CheckValue(node, nameof(node));
@@ -91,6 +91,7 @@ namespace ExpressionLib
             _meth.Il.Ret();
             return _meth.CreateDelegate(_delType);
         }
+	#endif
 
         public void Dispose()
         {
@@ -98,6 +99,7 @@ namespace ExpressionLib
         }
     }
 
+#if false
     internal sealed partial class LambdaCompiler
     {
         private sealed class Visitor : ExprVisitor
@@ -1427,5 +1429,5 @@ LDone:
             }
         }
     }
-#endif
+    #endif
 }
